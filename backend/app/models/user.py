@@ -11,6 +11,11 @@ class User(db.Model):
     role = db.Column(db.String(20), default='user')  # user o admin
     fecha_nacimiento = db.Column(db.Date, nullable=False)
 
+    # Relaciones 
+    albums = db.relationship('Album', backref='usuario', cascade="all, delete-orphan", lazy=True)
+    fotos = db.relationship('Foto', backref='usuario', cascade="all, delete-orphan", lazy=True)
+
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

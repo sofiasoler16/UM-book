@@ -3,9 +3,11 @@ from flask import request, jsonify
 from app.models.user import User
 from app.extensions import db
 from datetime import datetime
+from flask_jwt_extended import jwt_required
 
 
 class UserResource(Resource):
+    @jwt_required()
     def get(self):
         users = User.query.all()
         return [user.to_dict() for user in users], 200
