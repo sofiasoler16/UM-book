@@ -6,6 +6,7 @@ from app.extensions import db, migrate, jwt, mail
 from app.routes.user_routes import UserResource
 from app.routes.auth_routes import LoginResource
 from app.routes.album_routes import AlbumResource
+from app.routes.album_routes import AlbumDetailResource
 from app.routes.foto_routes import FotoResource
 
 
@@ -24,6 +25,7 @@ def create_app():
     api.add_resource(UserResource, '/users')
     api.add_resource(LoginResource, "/login")
     api.add_resource(AlbumResource, '/albums')
+    api.add_resource(AlbumDetailResource, '/albums/<int:album_id>')
     api.add_resource(FotoResource, '/fotos')
 
     return app

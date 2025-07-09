@@ -7,7 +7,7 @@ class Foto(db.Model):
     url = db.Column(db.String(255), nullable=False)  # En producción, esto sería un archivo
     fecha_subida = db.Column(db.DateTime, default=datetime.utcnow)
 
-    album_id = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=False)
+    album_id = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def to_dict(self):
