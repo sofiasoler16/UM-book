@@ -5,14 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root'  // Esto asegura que el servicio esté disponible globalmente
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:5000'; // Cambialo si lo necesitás
+  private apiUrl = 'http://127.0.0.1:5000';  // Cambiá si tu backend corre en otra URL
 
   constructor(private http: HttpClient) {}
 
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials);
   }
 }
