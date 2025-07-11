@@ -1,0 +1,110 @@
+/* Estilos generales */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
+
+/* Barra de navegación superior */
+.top-bar {
+    background-color: #e9ecef; /* Un gris muy claro */
+    padding: 10px 20px;
+    border-bottom: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Contenedor principal para que ocupe toda la altura */
+.main-container {
+    min-height: calc(100vh - 41px); /* Resta la altura del top-bar */
+}
+
+/* Columna izquierda con el fondo rosa */
+.left-column {
+    background-color: #fce4ec; /* Rosa pálido */
+}
+
+/* Contenedor de la pila de imágenes */
+.image-stack {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+/* Estilo de las imágenes tipo polaroid */
+.polaroid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: auto;
+    background-color: white;
+    padding: 15px;
+    padding-bottom: 60px; /* Espacio inferior para el pie de la polaroid */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+}
+
+.polaroid img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Asegura que la imagen superior esté por encima de las demás */
+.top-polaroid {
+    z-index: 10;
+}
+
+/* Columna derecha con el fondo gris */
+.right-column {
+    background-color: #f8f9fa; /* Gris claro */
+}
+
+/* Contenedor del formulario de login */
+.login-form {
+    background-color: #fce4ec; /* Rosa pálido */
+    padding: 40px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px; /* Ancho máximo del formulario */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+    font-weight: 300;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+}
+
+.login-form .form-label {
+    color: #444;
+    font-weight: 500;
+}
+
+/* Estilo para los campos de texto */
+.login-form .form-control {
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06); /* Sombra interior sutil */
+}
+
+.login-form .form-control:focus {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06), 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
+}
+
+/* Estilo para el enlace de registro */
+.login-form a {
+    color: #e91e63; /* Rosa más intenso */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+}
