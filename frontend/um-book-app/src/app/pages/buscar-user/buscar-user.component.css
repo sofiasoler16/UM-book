@@ -1,0 +1,170 @@
+/* ESTILOS GENERALES Y ESTRUCTURA (Reutilizados de la página anterior) */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #e9ecef;
+}
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main-layout {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+.content-area {
+    flex-grow: 1;
+    background-color: #fdecf2; /* Fondo Rosa */
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.btn-pink {
+  background-color: #f48fb1;
+  color: white;
+  border: none;
+}
+
+.btn-pink:hover {
+  background-color: #ec407a;
+  color: white;
+}
+
+
+/* --- NUEVOS ESTILOS PARA ESTA PÁGINA --- */
+
+/* Contenedor de la barra de búsqueda */
+.search-box {
+    background-color: #fbdbe9; /* Rosa un poco más oscuro */
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+/* Campo de texto para buscar */
+.search-box .form-control {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    background-color: #f7f7f7;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    font-size: 1rem;
+}
+.search-box .form-control::placeholder {
+    color: #aaa;
+}
+.search-box .form-control:focus {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(233, 30, 99, 0.15);
+}
+
+/* Contenedor para la lista de resultados */
+.user-list {
+    background-color: #fbdbe9; /* Mismo color que la caja de búsqueda */
+    border-radius: 12px;
+    padding: 15px 25px;
+}
+
+/* Estilo para cada usuario en la lista */
+.user-item {
+    display: flex;
+    align-items: center;
+    justify-self: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f8b3cf; /* Línea separadora rosa claro */
+}
+
+/* Elimina la línea del último usuario para un look más limpio */
+.user-list .user-item:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para el ícono de perfil */
+.user-item i {
+    font-size: 2rem; /* Tamaño del ícono */
+    color: #6c757d; /* Color gris */
+    margin-right: 20px;
+}
+
+/* Estilo para el nombre de usuario */
+.user-item span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.top-nav {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+/* --- BARRA LATERAL DERECHA (DISEÑO MEJORADO) --- */
+.sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+    border-left: 1px solid #dee2e6;
+    padding: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Flexbox para controlar el layout interno */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa toda la altura para empujar Home abajo */
+}
+
+.sidebar-menu li a {
+    display: flex; /* Cambiado a flex para alinear ícono y texto */
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #495057; /* Texto un poco más oscuro */
+    font-size: 1.1rem;
+    font-weight: 500;
+    border: 1px solid #dee2e6;
+    border-radius: 12px; /* <-- BORDES MÁS REDONDEADOS */
+    margin-bottom: 12px;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out; /* Transición más suave */
+}
+
+/* Efecto al pasar el mouse (solo si no es el botón activo) */
+.sidebar-menu li:not(.active) a:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    transform: translateY(-2px); /* Pequeño efecto de elevación */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* --- ESTILO PARA EL BOTÓN ACTIVO (MÁS OSCURO) --- */
+.sidebar-menu li.active a {
+    background-color: #e6a7c1; /* Un rosa oscuro más armónico */
+    border-color: #e6a7c1;
+    color: #fff; /* Texto blanco para mejor contraste */
+    box-shadow: 0 4px 12px rgba(230, 167, 193, 0.4);
+}
+.sidebar-menu li.active a i {
+    color: #fff; /* Ícono también en blanco */
+}
+
+/* Empuja el botón Home hacia abajo */
+.sidebar-menu .home-button-li {
+    margin-top: auto;
+}
+
+/* Estilo de los íconos */
+.sidebar-menu i {
+    margin-right: 15px; /* Más espacio entre ícono y texto */
+    font-size: 1.3rem;
+    color: #6c757d;
+}
+
+.user-item .btn-pink {
+    margin-left: auto; 
+}

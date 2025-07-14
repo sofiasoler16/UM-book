@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,20 +18,26 @@ export class LoginComponent {
   username = '';
   password = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   login(): void {
     this.authService.login({ username: this.username, password: this.password })
       .subscribe({
         next: response => {
           console.log('Token recibido:', response.access_token);
-          // Guardar el token en localStorage o lo que necesites
-          // Redirigir si es necesario, por ejemplo:
-          // this.router.navigate(['/']);
+          // Guardar el token (opcional)
+          localStorage.setItem('access_token', response.access_token);
+
+          // Redirigir a home
+          this.router.navigate(['/home']);
         },
         error: err => {
-          console.error('Error al iniciar sesión:', err);
+        if (err.status === 401) {
+          alert('Usuario o contraseña incorrectos');
+        } else {
+          alert('Error inesperado: ' + (err.error?.message || ''));
         }
+      }
       });
   }
 }

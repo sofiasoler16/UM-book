@@ -9,11 +9,6 @@ body {
     flex-direction: column;
     height: 100vh;
 }
-.top-nav {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-    flex-shrink: 0;
-}
 .main-layout {
     display: flex;
     flex-grow: 1;
@@ -121,8 +116,14 @@ a.album-link {
     margin-top: 4px;
 }
 
+.top-nav {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
 
 /* BARRA LATERAL DERECHA (Sin cambios) */
+/* --- BARRA LATERAL DERECHA (DISEÑO MEJORADO) --- */
 .sidebar {
     width: 280px;
     flex-shrink: 0;
@@ -130,29 +131,61 @@ a.album-link {
     border-left: 1px solid #dee2e6;
     padding: 20px;
 }
+
 .sidebar-menu {
     list-style: none;
     padding: 0;
     margin: 0;
+    /* Flexbox para controlar el layout interno */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa toda la altura para empujar Home abajo */
 }
+
 .sidebar-menu li a {
-    display: block;
+    display: flex; /* Cambiado a flex para alinear ícono y texto */
+    align-items: center;
     padding: 15px 20px;
     text-decoration: none;
-    color: #343a40;
+    color: #495057; /* Texto un poco más oscuro */
     font-size: 1.1rem;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    font-weight: 500;
+    border: 1px solid #dee2e6;
+    border-radius: 12px; /* <-- BORDES MÁS REDONDEADOS */
+    margin-bottom: 12px;
     background-color: #fff;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease-in-out; /* Transición más suave */
 }
-.sidebar-menu li a:hover {
+
+/* Efecto al pasar el mouse (solo si no es el botón activo) */
+.sidebar-menu li:not(.active) a:hover {
     background-color: #e9ecef;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-color: #ced4da;
+    transform: translateY(-2px); /* Pequeño efecto de elevación */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
+/* --- ESTILO PARA EL BOTÓN ACTIVO (MÁS OSCURO) --- */
+.sidebar-menu li.active a {
+    background-color: #e6a7c1; /* Un rosa oscuro más armónico */
+    border-color: #e6a7c1;
+    color: #fff; /* Texto blanco para mejor contraste */
+    box-shadow: 0 4px 12px rgba(230, 167, 193, 0.4);
+}
+.sidebar-menu li.active a i {
+    color: #fff; /* Ícono también en blanco */
+}
+
+/* Empuja el botón Home hacia abajo */
+.sidebar-menu .home-button-li {
+    margin-top: auto;
+}
+
+/* Estilo de los íconos */
 .sidebar-menu i {
-    margin-right: 10px;
+    margin-right: 15px; /* Más espacio entre ícono y texto */
+    font-size: 1.3rem;
+    color: #6c757d;
 }
 
 /* Limitar el ancho total del contenido en pantallas grandes */

@@ -7,7 +7,6 @@ from flask_jwt_extended import jwt_required
 
 
 class UserResource(Resource):
-    @jwt_required()
     def get(self):
         users = User.query.all()
         return [user.to_dict() for user in users], 200

@@ -1,9 +1,4 @@
 <body>
-
-    <nav class="top-bar">
-        Login o Signin
-    </nav>
-
     <div class="container-fluid">
         <div class="row main-container">
             <div class="col-md-6 left-column d-flex justify-content-center align-items-center">
@@ -23,19 +18,20 @@
             <div class="col-md-6 right-column d-flex justify-content-center align-items-center">
                 <div class="login-form">
                     <h2>Iniciar Sesion</h2>
-                    <form>
+                        <form (ngSubmit)="login()">
                         <div class="mb-4">
                             <label for="username" class="form-label">Nombre de Usuario</label>
-                            <input type="text" class="form-control" id="username">
+                            <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username">
                         </div>
                         <div class="mb-4">
-                            <label for="password" class="form-label">Contrasena</label>
-                            <input type="password" class="form-control" id="password">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password">
                         </div>
                         <div class="button">
-                            <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+                            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                         </div>
-                    </form>
+                        </form>
+
                     <p class="mt-4 text-center">
                         No tienes cuenta? <a href="registrarse">Registrarse</a>
                     </p>

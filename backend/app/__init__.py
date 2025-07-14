@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from app.config import Config
 from app.extensions import db, migrate, jwt, mail
+from flask_cors import CORS
 
 from app.routes.user_routes import UserResource
 from app.routes.auth_routes import LoginResource
@@ -18,6 +19,8 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     mail.init_app(app)
+    CORS(app)
+
 
     api = Api(app)
 
