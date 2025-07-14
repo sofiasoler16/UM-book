@@ -22,6 +22,18 @@ body {
     border-radius: 15px;
 }
 
+.btn-pink {
+  background-color: #f48fb1;
+  color: white;
+  border: none;
+}
+
+.btn-pink:hover {
+  background-color: #ec407a;
+  color: white;
+}
+
+
 /* Título "Registrarse" */
 .register-title {
     font-family: '';

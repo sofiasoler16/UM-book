@@ -15,6 +15,18 @@ body, html {
     font-size: 0.9rem;
 }
 
+.btn-pink {
+  background-color: #f48fb1;
+  color: white;
+  border: none;
+}
+
+.btn-pink:hover {
+  background-color: #ec407a;
+  color: white;
+}
+
+
 /* Contenedor principal para que ocupe toda la altura */
 .main-container {
     min-height: calc(100vh - 41px); /* Resta la altura del top-bar */
