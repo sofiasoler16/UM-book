@@ -1,0 +1,23 @@
+<div class="solicitudes-container">
+  <h2>Solicitudes recibidas</h2>
+
+  <!-- Si no hay solicitudes -->
+  <p *ngIf="solicitudes.length === 0" class="no-solicitudes">
+    No tienes solicitudes pendientes por ahora.
+  </p>
+
+  <!-- Lista de solicitudes -->
+  <ul class="solicitudes-list" *ngIf="solicitudes.length > 0">
+    <li *ngFor="let s of solicitudes" class="solicitud-item">
+      <div class="solicitud-info">
+        <p class="user-name">ID usuario: <strong>{{ s.sender_id }}</strong></p>
+        <!-- Si llega sender_username, podés mostrarlo también -->
+        <!-- <p class="user-name">@{{ s.sender_username }}</p> -->
+      </div>
+      <div class="acciones">
+        <button class="btn btn-aceptar" (click)="responderSolicitud(s.id, 'accept')">Aceptar</button>
+        <button class="btn btn-rechazar" (click)="responderSolicitud(s.id, 'reject')">Rechazar</button>
+      </div>
+    </li>
+  </ul>
+</div>

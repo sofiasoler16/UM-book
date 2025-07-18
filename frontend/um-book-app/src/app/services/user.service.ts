@@ -18,8 +18,3 @@ interface DecodedToken {
   id: number;
   username: string;
 }
-
-const token = localStorage.getItem('access_token');
-const decoded: DecodedToken = jwtDecode(token!);  // ! porque sabemos que existe
-
-const currentUserId = decoded.id;

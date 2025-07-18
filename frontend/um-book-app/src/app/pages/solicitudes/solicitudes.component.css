@@ -1,0 +1,94 @@
+/* Contenedor principal */
+.solicitudes-container {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Título */
+h2 {
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Mensaje si no hay solicitudes */
+.no-solicitudes {
+  color: #666;
+  font-size: 1rem;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+/* Lista sin puntos */
+.solicitudes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ítem individual */
+.solicitud-item {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.solicitud-item:hover {
+  background-color: #f1f3f5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Información del usuario */
+.solicitud-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+/* Botones */
+.acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-aceptar {
+  background-color: #198754;
+  color: #fff;
+}
+.btn-aceptar:hover {
+  background-color: #157347;
+}
+
+.btn-rechazar {
+  background-color: #dc3545;
+  color: #fff;
+}
+.btn-rechazar:hover {
+  background-color: #bb2d3b;
+}

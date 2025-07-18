@@ -16,7 +16,8 @@ class LoginResource(Resource):
         if not user or not check_password_hash(user.password_hash, password):
             return {"message": "Usuario o contraseña incorrectos"}, 401
 
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
+
 
 
         return {"access_token": access_token}, 200
