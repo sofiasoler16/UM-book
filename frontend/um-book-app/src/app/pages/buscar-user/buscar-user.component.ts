@@ -1,34 +1,81 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { UserFilterPipe } from '../../pipes/user-filter.pipe';
+import { FriendService, Amigo } from '../../services/friend.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-buscar-user',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule, UserFilterPipe],
+  imports: [CommonModule, FormsModule, HttpClientModule, UserFilterPipe],
   templateUrl: './buscar-user.component.html',
-  styleUrls: ['./buscar-user.component.css'],
+  styleUrls: ['./buscar-user.component.css']
 })
 export class BuscarUserComponent implements OnInit {
+  searchTerm = '';
   usuarios: any[] = [];
-  searchTerm: string = '';
+  solicitudesEnviadas: number[] = [];
+  amigos: number[] = [];
+  miId: number | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private friendService: FriendService,
+    private userService: UserService,
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe({
-      next: users => {
-        console.log('Usuarios recibidos:', users);  // 👈 Esto nos dice si llegan
-        this.usuarios = users;
-      },
+  const currentUserId = this.getUserIdFromToken();
 
-      
-      error: err => {
-        console.error('Error al cargar usuarios:', err);
+
+  this.userService.getUsers().subscribe((data: any[]) => {
+    this.usuarios = data.map(user => ({
+      ...user,
+      esActual: Number(user.id) === Number(currentUserId)
+    }));
+    
+  });
+
+  this.friendService.obtenerAmigos().subscribe((data: Amigo[]) => {
+    this.amigos = data.map(a => a.friend_id);
+  });
+}
+
+
+
+  enviarSolicitud(receiverId: number): void {
+    this.friendService.enviarSolicitud(receiverId).subscribe({
+      next: () => {
+        alert('Solicitud enviada');
+        this.solicitudesEnviadas.push(receiverId);
+      },
+      error: (err) => {
+        alert(err.error?.message || 'Error al enviar solicitud');
       }
     });
   }
+
+  solicitudYaEnviada(userId: number): boolean {
+    return this.solicitudesEnviadas.includes(userId);
+  }
+
+  yaEsAmigo(userId: number): boolean {
+    return this.amigos.includes(userId);
+  }
+
+ getUserIdFromToken(): number | null {
+  const token = localStorage.getItem('access_token');
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.sub || payload.identity || null;
+  } catch (e) {
+    console.error('Error al decodificar el token', e);
+    return null;
+  }
+}
+
+
 }

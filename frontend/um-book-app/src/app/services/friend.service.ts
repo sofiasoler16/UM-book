@@ -1,6 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+export interface Amigo {
+  friend_id: number;
+  friend_username: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,5 +33,9 @@ export class FriendService {
 
   confirmarSolicitud(id: number, action: 'accept' | 'reject') {
     return this.http.put(`${this.baseUrl}/friends/confirm/${id}`, { action }, this.getAuthHeaders());
+  }
+
+  obtenerAmigos() {
+    return this.http.get<Amigo[]>(`${this.baseUrl}/friends/list`, this.getAuthHeaders());
   }
 }

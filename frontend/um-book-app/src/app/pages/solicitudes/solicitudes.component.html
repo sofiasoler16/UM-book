@@ -10,9 +10,7 @@
   <ul class="solicitudes-list" *ngIf="solicitudes.length > 0">
     <li *ngFor="let s of solicitudes" class="solicitud-item">
       <div class="solicitud-info">
-        <p class="user-name">ID usuario: <strong>{{ s.sender_id }}</strong></p>
-        <!-- Si llega sender_username, podés mostrarlo también -->
-        <!-- <p class="user-name">@{{ s.sender_username }}</p> -->
+        <p class="user-name">Usuario: <strong>{{ s.sender_username }}</strong></p>
       </div>
       <div class="acciones">
         <button class="btn btn-aceptar" (click)="responderSolicitud(s.id, 'accept')">Aceptar</button>

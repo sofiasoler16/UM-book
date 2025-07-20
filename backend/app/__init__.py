@@ -9,6 +9,7 @@ from app.routes.auth_routes import LoginResource
 from app.routes.album_routes import AlbumResource, AlbumDetailResource
 from app.routes.foto_routes import FotoResource
 from app.routes.friend_routes import (
+    FriendsListResource,
     SendFriendRequestResource,
     ReceivedFriendRequestsResource,
     ConfirmFriendRequestResource
@@ -28,6 +29,7 @@ def create_app():
     api = Api(app)
 
     # Registrar resources existentes
+    api.add_resource(FriendsListResource, '/friends/list')
     api.add_resource(UserResource, '/users')
     api.add_resource(LoginResource, '/login')
     api.add_resource(AlbumResource, '/albums')

@@ -11,32 +11,51 @@
         <div class="main-layout">
             <main class="content-area">
                 <div class="search-box">
-                <input type="text" class="form-control"
-                        placeholder="Escribe el nombre del usuario a buscar..."
-                        [(ngModel)]="searchTerm">
+                    <input type="text" class="form-control"
+                            placeholder="Escribe el nombre del usuario a buscar..."
+                            [(ngModel)]="searchTerm">
                 </div>
 
 
-        <div class="user-list">
-            <div class="user-item"
-                *ngFor="let user of usuarios | userFilter: searchTerm">
-            <span>&#64;{{ user.username }} <span *ngIf="user.esActual">(yo)</span></span>
-            <a class="btn btn-pink btn-sm">anadir amigo</a>
-            </div>
+                <div class="user-list">
+                    <div class="user-item"
+                        *ngFor="let user of usuarios | userFilter: searchTerm">
 
-        </div>
+                        <span>
+                        &#64;{{ user.username }} <span *ngIf="user.esActual">(yo)</span>
+                        </span>
+
+                        <button
+                        *ngIf="!user.esActual"
+                        class="btn btn-pink btn-sm"
+                        (click)="enviarSolicitud(user.id)"
+                        [disabled]="solicitudYaEnviada(user.id) || yaEsAmigo(user.id)">
+
+                        {{ yaEsAmigo(user.id) ? 'ya son amigos' :
+                            solicitudYaEnviada(user.id) ? 'solicitud enviada' :
+                            'añadir amigo' }}
+                        </button>
+
+                    </div>
+                </div>
+
+
+               
+
+                
             </main>
 
-            <aside class="sidebar">
-                <ul class="sidebar-menu">
-                    <li><a href="perfil"><i class="bi bi-person-circle"></i> Mi perfil</a></li>
-                    <li class="active"><a href="buscar-user"><i class="bi bi-search"></i> + Usuarios</a></li>
-                    <li><a href="amigos"><i class="bi bi-people-fill"></i> Amigos</a></li>
-                    <li><a href="grupos"><i class="bi bi-grid-3x3-gap-fill"></i> Grupos</a></li>
+                <aside class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li><a href="perfil"><i class="bi bi-person-circle"></i> Mi perfil</a></li>
+                        <li class="active"><a href="buscar-user"><i class="bi bi-search"></i> + Usuarios</a></li>
+                        <li><a href="amigos"><i class="bi bi-people-fill"></i> Amigos</a></li>
+                        <li><a href="grupos"><i class="bi bi-grid-3x3-gap-fill"></i> Grupos</a></li>
 
-                    <li class="home-button-li"><a href="home"><i class="bi bi-house-door-fill"></i> Home</a></li>
-                </ul>
-            </aside>
+                        <li class="home-button-li"><a href="home"><i class="bi bi-house-door-fill"></i> Home</a></li>
+                    </ul>
+                </aside>
+            
         </div>
     </div>
 

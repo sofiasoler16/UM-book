@@ -41,8 +41,9 @@ export class SolicitudesComponent implements OnInit {
   }
 
   responderSolicitud(id: number, accion: 'accept' | 'reject') {
-    this.friendService.confirmarSolicitud(id, accion).subscribe(() => {
-      this.cargarSolicitudes();
-    });
-  }
+  this.friendService.confirmarSolicitud(id, accion).subscribe(() => {
+    this.cargarSolicitudes(); // refresca solicitudes
+  });
+}
+
 }
