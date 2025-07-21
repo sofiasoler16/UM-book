@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { BuscarUserComponent } from './pages/buscar-user/buscar-user.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component'; 
 import { AmigosComponent } from './pages/amigos/amigos.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'buscar-user', component: BuscarUserComponent },
   { path: 'solicitudes', component: SolicitudesComponent },
   { path: 'amigos', component: AmigosComponent },
+  { path: 'perfil', component: PerfilComponent },
    
 ];
   
