@@ -38,4 +38,11 @@ export class FriendService {
   obtenerAmigos() {
     return this.http.get<Amigo[]>(`${this.baseUrl}/friends/list`, this.getAuthHeaders());
   }
+
+  eliminarAmigo(friendId: number) {
+    return this.http.delete(`${this.baseUrl}/friends/delete/${friendId}`, this.getAuthHeaders());
+  }
+
+
+
 }

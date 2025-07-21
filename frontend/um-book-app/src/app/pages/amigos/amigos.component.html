@@ -1,0 +1,51 @@
+<body>
+
+    <div class="page-container">
+        <nav class="navbar top-nav">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1">Amigos</span>
+                <a href="login" class="btn btn-outline-secondary btn-sm">Cerrar Sesion</a>
+            </div>
+        </nav>
+
+        <div class="main-layout">
+          <main class="content-area">
+            <div class="container-fluid">
+              <div *ngIf="amigos.length === 0" class="no-amigos text-center">
+                <p>No tienes amigos aún.</p>
+              </div>
+
+              <ul class="amigos-list row g-4" *ngIf="amigos.length > 0">
+                <li *ngFor="let amigo of amigos" class="col-lg-6">
+                  <div class="photo-card">
+                    <span class="user-name">{{ '@' + amigo.friend_username }}</span>
+                    <div class="image-container">
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                        alt="Avatar de amigo"
+                        width="150"
+                      />
+                    </div>
+                    <div class="text-content">
+                      <p class="card-title">Amigo ID: {{ amigo.friend_id }}</p>
+                      <button
+                        (click)="eliminarAmigo(amigo.friend_id)"
+                        class="btn btn-danger btn-sm mt-2"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+    </main>
+            <app-sidebar></app-sidebar>
+        </div>
+    </div>
+
+</body>
+
+
+
+
