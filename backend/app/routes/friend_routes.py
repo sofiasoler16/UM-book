@@ -1,3 +1,4 @@
+from operator import or_
 from flask_restful import Resource
 from flask import request
 from app.extensions import db
@@ -72,14 +73,18 @@ class ConfirmFriendRequestResource(Resource):
 
         data = request.get_json()
         action = data.get('action')
-
         if action == 'accept':
-            # Cambiar estado
             friend_request.status = 'accepted'
 
-            # Crear amistad bidireccional
-            db.session.add(Friendship(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id))
-            db.session.add(Friendship(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id))
+            # Ordenar IDs para guardar solo una fila por amistad
+            user1 = min(friend_request.sender_id, friend_request.receiver_id)
+            user2 = max(friend_request.sender_id, friend_request.receiver_id)
+
+            # Verificar si ya existe
+            existing = Friendship.query.filter_by(user_id=user1, friend_id=user2).first()
+            if not existing:
+                db.session.add(Friendship(user_id=user1, friend_id=user2))
+
             db.session.commit()
             return {'message': 'Solicitud aceptada y amistad creada.'}, 200
 
@@ -94,12 +99,83 @@ class ConfirmFriendRequestResource(Resource):
 class FriendsListResource(Resource):
     @jwt_required()
     def get(self):
-        user_id = int(get_jwt_identity())
-        friendships = Friendship.query.filter_by(user_id=user_id).all()
+        current_user_id = int(get_jwt_identity())
 
-        return [
-            {
-                'friend_id': f.friend_id,
-                'friend_username': f.friend.username
-            } for f in friendships
-        ], 200
+        friendships = Friendship.query.filter(
+            or_(
+                Friendship.user_id == current_user_id,
+                Friendship.friend_id == current_user_id
+            )
+        ).all()
+
+        amigos = []
+        for f in friendships:
+            if f.user_id == current_user_id:
+                amigo = f.friend
+            else:
+                amigo = f.user
+            amigos.append({
+                'friend_id': amigo.id,
+                'friend_username': amigo.username
+            })
+
+        return amigos, 200
+    
+class DeleteFriendResource(Resource):
+    method_decorators = [jwt_required()]  # Aplica a todos los métodos (excepto options)
+
+    def delete(self, friend_id):
+        current_user_id = get_jwt_identity()
+
+        friendship = Friendship.query.filter(
+            db.or_(
+                db.and_(Friendship.user_id == current_user_id, Friendship.friend_id == friend_id),
+                db.and_(Friendship.user_id == friend_id, Friendship.friend_id == current_user_id)
+            )
+        ).first()
+
+        if not friendship:
+            return {'message': 'Amistad no encontrada'}, 404
+
+        db.session.delete(friendship)
+        db.session.commit()
+        return {'message': 'Amistad eliminada correctamente'}, 200
+
+    def options(self, friend_id=None):
+        """Habilita preflight CORS"""
+        return {}, 200
+
+
+
+
+class FriendsListResource(Resource):
+    @jwt_required()
+    def get(self):
+        user_id = int(get_jwt_identity())
+
+        friendships = Friendship.query.filter(
+            (Friendship.user_id == user_id) | (Friendship.friend_id == user_id)
+        ).all()
+
+        result = []
+        added_ids = set()
+
+        for f in friendships:
+            # Determinar el amigo real (el otro que no soy yo)
+            if f.user_id == user_id:
+                friend_id = f.friend_id
+                friend_username = f.friend.username
+            else:
+                friend_id = f.user_id
+                friend_username = f.user.username
+
+            # Evitar duplicados
+            if friend_id not in added_ids:
+                result.append({
+                    'friend_id': friend_id,
+                    'friend_username': friend_username
+                })
+                added_ids.add(friend_id)
+
+        return result, 200
+
