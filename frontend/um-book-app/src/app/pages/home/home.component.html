@@ -1,83 +1,56 @@
 <body>
+  <div class="page-container">
+    <nav class="navbar top-nav">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Home</span>
+        <a href="login" class="btn btn-outline-secondary btn-sm">Cerrar Sesión</a>
+      </div>
+    </nav>
 
-    <div class="page-container">
-        <nav class="navbar top-nav">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Home</span>
-                <a href="login" class="btn btn-outline-secondary btn-sm">Cerrar Sesion</a>
-            </div>
-        </nav>
+    <div class="main-layout">
+      <main class="content-area">
+        <div class="container-fluid">
+          <div class="row g-5">
 
-        <div class="main-layout">
-            <main class="content-area">
-                <div class="container-fluid">
-                    <div class="row g-5">
-                        <div class="col-lg-6">
-                            <a href="album.html" class="album-link">
-                                <div class="polaroid-stack">
-                                    <div class="polaroid-bg" style="transform: rotate(-6deg);"></div>
-                                    <div class="polaroid-bg" style="transform: rotate(2deg);"></div>
-                                    <div class="polaroid-main">
-                                        <span class="user-name">&#64;User_name</span>
-                                        <div class="image-container">
-                                            <img src="https://images.pexels.com/photos/1532771/pexels-photo-1532771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Vacaciones Playa">
-                                        </div>
-                                        <div class="text-content">
-                                            <p class="card-title">Album: Vacaciones Playa</p>
-                                            <p class="upload-date">Subido el DD/MM/AAAA</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                           <a href="album.html" class="album-link">
-                                <div class="polaroid-stack">
-                                    <div class="polaroid-bg" style="transform: rotate(5deg);"></div>
-                                    <div class="polaroid-bg" style="transform: rotate(-3deg);"></div>
-                                    <div class="polaroid-main">
-                                        <span class="user-name">&#64;User_name</span>
-                                        <div class="image-container">
-                                            <img src="https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Paisajes">
-                                        </div>
-                                        <div class="text-content">
-                                            <p class="card-title">Album: Paisajes</p>
-                                            <p class="upload-date">Subido el DD/MM/AAAA</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                             <div class="photo-card">
-                                 <span class="user-name">&#64;User_name</span>
-                                 <div class="image-container">
-                                    <img src="https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Bosque Pacífico">
-                                 </div>
-                                <div class="text-content">
-                                    <p class="card-title">Foto: Bosque Pacifico</p>
-                                    <p class="upload-date">Subido el DD/MM/AAAA</p>
-                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="photo-card">
-                                <span class="user-name">&#64;User_name</span>
-                                <div class="image-container">
-                                    <img src="https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Cielo Magnífico">
-                                </div>
-                                <div class="text-content">
-                                    <p class="card-title">Foto: Cielo Magnifico</p>
-                                    <p class="upload-date">Subido el DD/MM/AAAA</p>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Álbumes de amigos -->
+            <div class="col-lg-6" *ngFor="let album of albumesAmigos">
+              <a [routerLink]="['/album', album.id]" class="album-link">
+                <div class="polaroid-stack">
+                  <div class="polaroid-bg" style="transform: rotate(-5deg);"></div>
+                  <div class="polaroid-bg" style="transform: rotate(3deg);"></div>
+                  <div class="polaroid-main">
+                    <span class="user-name">{{ '@' + album.username }}</span>
+                    <div class="image-container">
+                      <img [src]="album.imagenes[0]" alt="{{ album.nombre }}">
                     </div>
+                    <div class="text-content">
+                      <p class="card-title">Álbum: {{ album.nombre }}</p>
+                      <p class="upload-date">Subido el {{ album.fecha }}</p>
+                    </div>
+                  </div>
                 </div>
-            </main>
+              </a>
+            </div>
 
-            <app-sidebar></app-sidebar>
+            <!-- Fotos sueltas de amigos -->
+            <div class="col-lg-6" *ngFor="let foto of fotosAmigos">
+              <div class="photo-card">
+                <span class="user-name">{{ '@' + foto.username }}</span>
+                <div class="image-container">
+                  <img [src]="foto.url" alt="{{ foto.titulo }}">
+                </div>
+                <div class="text-content">
+                  <p class="card-title">Foto: {{ foto.titulo }}</p>
+                  <p class="upload-date">Subido el {{ foto.fecha }}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-    </div>
+      </main>
 
+      <app-sidebar></app-sidebar>
+    </div>
+  </div>
 </body>

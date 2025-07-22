@@ -11,14 +11,13 @@
 
     <main class="content-area">
       <div class="container-fluid perfil-container">
-
         <div class="cover-photo"></div>
 
         <div class="perfil-header">
           <div class="avatar"></div>
           <div class="user-info">
             <h2>{{ '@' + username }}</h2>
-            <p>Correo: usuario&#64;ejemplo.com</p>
+            <p>Correo: {{ correo }}</p>
             <p>Miembro desde: 01/01/2024</p>
           </div>
         </div>
@@ -28,14 +27,15 @@
           <button class="btn btn-secondary" (click)="abrirModalAlbum()">Crear álbum</button>
         </div>
 
-        <div class="publicaciones">
+        <!-- Publicaciones -->
+        <div class="publicaciones mt-4">
           <h4>Mis publicaciones</h4>
           <div class="row g-4">
             <div class="col-lg-6" *ngFor="let post of publicaciones">
               <div class="photo-card">
                 <span class="user-name">{{ '@' + username }}</span>
                 <div class="image-container">
-                  <img [src]="post.imagen" alt="Imagen publicación">
+                  <img [src]="post.imagen" alt="Imagen publicación" />
                 </div>
                 <div class="text-content">
                   <p class="card-title">{{ post.titulo }}</p>
@@ -45,9 +45,33 @@
             </div>
           </div>
         </div>
+
+        <!-- Álbumes -->
+        <div class="albumes mt-5">
+          <h4>Mis álbumes</h4>
+          <div *ngIf="albumes.length === 0">No has creado ningún álbum aún.</div>
+
+          <div class="album-grid">
+            <div class="album-card" *ngFor="let album of albumes; let i = index" (click)="toggleAlbum(i)">
+              <img [src]="album.imagenes[0].url" alt="Miniatura del álbum" class="album-thumbnail" />
+              <div class="album-info">
+                <h6>{{ album.nombre }}</h6>
+                <small *ngIf="album.descripcion">{{ album.descripcion }}</small>
+              </div>
+              <div class="expanded-images" *ngIf="album.expandido">
+                <img
+                  *ngFor="let imagen of album.imagenes"
+                  [src]="imagen.url"
+                  class="expanded-img"
+                  alt="Imagen del álbum"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-              <!-- MODAL: Subir publicación -->
+      <!-- MODAL: Subir publicación -->
       <div class="modal-backdrop" *ngIf="mostrarModalPublicacion">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -57,17 +81,8 @@
             </div>
 
             <div class="modal-body">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Título"
-                [(ngModel)]="nuevaPublicacion"
-              >
-              <input
-                type="file"
-                class="form-control mt-3"
-                (change)="onFileSelected($event)"
-              >
+              <input type="text" class="form-control" placeholder="Título" [(ngModel)]="nuevaPublicacion" />
+              <input type="file" class="form-control mt-3" (change)="onFileSelected($event)" />
             </div>
 
             <div class="modal-footer">
@@ -78,44 +93,36 @@
         </div>
       </div>
 
-              <!-- MODAL: Crear álbum -->
-        <div class="modal-backdrop" *ngIf="mostrarModalAlbum">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Nuevo Álbum</h5>
-                <button type="button" class="btn-close-modal" (click)="cerrarModalAlbum()">✖</button>
-              </div>
-              <div class="modal-body">
-                <input
-                  type="text"
-                  class="form-control mb-2"
-                  placeholder="Nombre del álbum"
-                  [(ngModel)]="nuevoAlbum.nombre"
-                />
-                <textarea
-                  class="form-control mb-3"
-                  placeholder="Descripción (opcional)"
-                  [(ngModel)]="nuevoAlbum.descripcion"
-                ></textarea>
+      <!-- MODAL: Crear álbum -->
+      <div class="modal-backdrop" *ngIf="mostrarModalAlbum">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Nuevo Álbum</h5>
+              <button type="button" class="btn-close-modal" (click)="cerrarModalAlbum()">✖</button>
+            </div>
+            <div class="modal-body">
+              <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Nombre del álbum"
+                [(ngModel)]="nuevoAlbum.nombre"
+              />
+              <textarea
+                class="form-control mb-3"
+                placeholder="Descripción (opcional)"
+                [(ngModel)]="nuevoAlbum.descripcion"
+              ></textarea>
 
-                <input
-                  type="file"
-                  class="form-control"
-                  multiple
-                  (change)="onImagenesSeleccionadas($event)"
-                />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="crearAlbum()">Crear</button>
-                <button type="button" class="btn btn-secondary" (click)="cerrarModalAlbum()">Cancelar</button>
-              </div>
+              <input type="file" class="form-control" multiple (change)="onImagenesSeleccionadas($event)" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" (click)="crearAlbum()">Crear</button>
+              <button type="button" class="btn btn-secondary" (click)="cerrarModalAlbum()">Cancelar</button>
             </div>
           </div>
         </div>
-      
-
-           
+      </div>
     </main>
   </div>
 </div>
