@@ -1,33 +1,46 @@
-<div class="page-layout">
-  <div class="content">
-    <div class="solicitudes-container">
-      <h2>Solicitudes recibidas</h2>
+<body>
+  <div class="page-container">
+    <nav class="navbar top-nav">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Solicitudes</span>
+        <a href="login" class="btn btn-outline-secondary btn-sm">Cerrar Sesión</a>
+      </div>
+    </nav>
 
-      <!-- Si no hay solicitudes -->
-      <p *ngIf="solicitudes.length === 0" class="no-solicitudes">
-        No tienes solicitudes pendientes por ahora.
-      </p>
+    <div class="main-layout">
+      <main class="content-area">
+        <div class="container-fluid">
+          <div class="solicitudes-container">
+            <h2 class="section-title">Solicitudes recibidas</h2>
 
-      <!-- Lista de solicitudes -->
-      <ul class="solicitudes-list" *ngIf="solicitudes.length > 0">
-        <li *ngFor="let s of solicitudes" class="solicitud-item">
-          <div class="solicitud-info">
-            <p class="user-name">
-              Usuario: <strong>{{ s.sender_username }}</strong>
-            </p>
+            <div *ngIf="solicitudes.length === 0" class="no-solicitudes-container text-center">
+              <i class="bi bi-bell-slash-fill no-solicitudes-icon"></i>
+              <p class="no-solicitudes-message">No tienes solicitudes pendientes por ahora. ¡Todo tranquilo!</p>
+            </div>
+
+            <ul class="solicitudes-list" *ngIf="solicitudes.length > 0">
+              <li *ngFor="let s of solicitudes" class="solicitud-card">
+                <div class="user-info">
+                  <div class="avatar-placeholder">
+                    <i class="bi bi-person-fill"></i> </div>
+                  <p class="user-name">
+                    <strong>{{ '@' + s.sender_username }}</strong>
+                  </p>
+                </div>
+                <div class="acciones">
+                  <button class="btn btn-primary btn-accept" (click)="responderSolicitud(s.id, 'accept')">
+                    Aceptar
+                  </button>
+                  <button class="btn btn-danger btn-reject" (click)="responderSolicitud(s.id, 'reject')">
+                    Rechazar
+                  </button>
+                </div>
+              </li>
+            </ul>
           </div>
-          <div class="acciones">
-            <button class="btn btn-aceptar" (click)="responderSolicitud(s.id, 'accept')">
-              Aceptar
-            </button>
-            <button class="btn btn-rechazar" (click)="responderSolicitud(s.id, 'reject')">
-              Rechazar
-            </button>
-          </div>
-        </li>
-      </ul>
+        </div>
+      </main>
+      <app-sidebar></app-sidebar>
     </div>
   </div>
-
-  <app-sidebar></app-sidebar>
-</div>
+</body>

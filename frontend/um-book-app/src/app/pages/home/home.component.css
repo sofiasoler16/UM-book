@@ -44,17 +44,16 @@ a.album-link {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Polaroids de fondo (blancas) */
 .polaroid-bg {
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     position: absolute;
-    width: calc(100% - 10px); /* Ligeramente más pequeñas */
+    width: calc(100% - 10px);
     height: calc(100% - 10px);
     border-radius: 8px;
     top: 5px;
     left: 5px;
-    opacity: 0.8; /* Más sutil */
+    opacity: 0.8;
 }
 .polaroid-bg:nth-child(1) {
     transform: rotate(-4deg);
@@ -70,7 +69,7 @@ a.album-link {
     z-index: 6;
     opacity: 0.8;
 }
-.polaroid-bg:nth-child(3) { /* Nueva capa */
+.polaroid-bg:nth-child(3) {
     transform: rotate(-1deg);
     top: 6px;
     left: 6px;
@@ -78,18 +77,17 @@ a.album-link {
     opacity: 0.9;
 }
 
-/* Polaroid principal (gris, la que se ve al frente) */
 .polaroid-main {
     position: relative;
     z-index: 10;
-    background-color: #fdfdfd; /* Blanco casi puro para el frente */
-    border-radius: 10px; /* Ligeramente más redondeado */
-    padding: 20px; /* Más padding */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Sombra más pronunciada */
+    background-color: #fdfdfd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     height: 100%;
     display: flex;
     flex-direction: column;
-    height: 380px; /* Altura fija */
+    height: 380px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
 }
@@ -101,27 +99,27 @@ a.album-link {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    margin-bottom: 15px; /* Espacio entre imagen y texto */
-    background-color: #eee; /* Fondo neutro para el contenedor de imagen */
+    margin-bottom: 15px;
+    background-color: #eee;
 }
 .polaroid-main img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cambiado a cover para llenar el espacio */
+    object-fit: cover;
     border-radius: 6px;
     display: block;
 }
 
-/* ESTILO PARA LAS FOTOS INDIVIDUALES */
+/* ESTILO PARA LAS FOTOS INDIVIDUALES (min-height adjusted) */
 .photo-card {
-    background-color: #fdfdfd; /* Blanco casi puro */
+    background-color: #fdfdfd;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     height: 100%;
     display: flex;
     flex-direction: column;
-    min-height: 380px; /* Consistente con álbumes */
+    min-height: auto; /* Changed to auto to allow comments section to expand */
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 .photo-card:hover {
@@ -142,38 +140,154 @@ a.album-link {
 .photo-card img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cambiado a cover */
+    object-fit: cover;
     border-radius: 6px;
     display: block;
 }
 
 /* ESTILOS DE TEXTO COMUNES (Dentro de las tarjetas) */
 .user-name {
-    font-size: 1rem; /* Ligeramente más grande */
-    font-weight: 600; /* Más audaz */
+    font-size: 1rem;
+    font-weight: 600;
     color: #444;
-    margin-bottom: 12px; /* Más espacio */
-    text-align: left; /* Alineado a la izquierda */
+    margin-bottom: 12px;
+    text-align: left;
 }
 .text-content {
-    padding-top: 0; /* Ya tenemos margin-bottom en image-container */
-    text-align: left; /* Alineado a la izquierda */
+    padding-top: 0;
+    text-align: left;
+    margin-bottom: 15px; /* Add space before comments */
 }
 .card-title {
     font-weight: 500;
     color: #333;
     margin: 0;
-    font-size: 1.1rem; /* Ligeramente más grande */
+    font-size: 1.1rem;
 }
 .upload-date {
-    font-size: 0.85rem; /* Ligeramente más grande */
+    font-size: 0.85rem;
     color: #777;
     margin-top: 6px;
 }
 
+/* Comments Section Styles */
+.comments-section {
+  border-top: 1px solid #f0f0f0; /* Light border to separate from post info */
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.comments-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; /* Space below header even if no comments */
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.comment-icon {
+  font-size: 1.2rem;
+  color: #e6a7c1; /* Pink icon */
+  margin-right: 8px;
+}
+
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0; /* Margin below list */
+  /* Remove max-height and overflow-y if you prefer no scroll until actual comments appear */
+  /* max-height: 150px; */
+  /* overflow-y: auto; */
+}
+
+/* These styles won't apply until .comment-item elements are added dynamically */
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.comment-avatar-container {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #ddd;
+}
+
+.comment-avatar-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comment-content {
+  flex-grow: 1;
+}
+
+.comment-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.comment-text {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.comment-input-area {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.comment-input:focus {
+  border-color: #e6a7c1;
+  box-shadow: 0 0 0 0.2rem rgba(230, 167, 193, 0.25);
+}
+
+.btn-send-comment {
+  background-color: #e6a7c1;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.btn-send-comment:hover {
+  background-color: #d697b1;
+  transform: translateY(-1px);
+}
+.btn-send-comment i {
+  font-size: 1.1rem;
+}
+
+
 .top-nav {
-    background-color: #fdfdfd; /* Blanco puro para la barra superior */
-    border-bottom: 1px solid #f0f0f0; /* Borde más sutil */
+    background-color: #fdfdfd;
+    border-bottom: 1px solid #f0f0f0;
     flex-shrink: 0;
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
@@ -196,8 +310,8 @@ a.album-link {
 .sidebar {
     width: 280px;
     flex-shrink: 0;
-    background-color: #fdfdfd; /* Blanco puro */
-    border-left: 1px solid #f0f0f0; /* Borde más sutil */
+    background-color: #fdfdfd;
+    border-left: 1px solid #f0f0f0;
     padding: 20px;
     box-shadow: -2px 0 5px rgba(0,0,0,0.03);
 }
@@ -216,21 +330,21 @@ a.album-link {
     align-items: center;
     padding: 15px 20px;
     text-decoration: none;
-    color: #555; /* Texto un poco más oscuro */
-    font-size: 1.05rem; /* Ajustado */
+    color: #555;
+    font-size: 1.05rem;
     font-weight: 500;
-    border: none; /* Eliminado el borde */
-    border-radius: 10px; /* <-- BORDES MÁS REDONDEADOS */
-    margin-bottom: 10px; /* Menos espacio entre items */
-    background-color: transparent; /* Fondo transparente por defecto */
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
     transition: all 0.2s ease-in-out;
 }
 
 /* Efecto al pasar el mouse (solo si no es el botón activo) */
 .sidebar-menu li:not(.active) a:hover {
-    background-color: #f8f8f8; /* Un gris muy claro */
+    background-color: #f8f8f8;
     color: #333;
-    transform: translateX(5px); /* Deslizamiento sutil */
+    transform: translateX(5px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
@@ -239,7 +353,7 @@ a.album-link {
     background-color: #e6a7c1;
     color: #fff;
     box-shadow: 0 4px 12px rgba(230, 167, 193, 0.4);
-    font-weight: 600; /* Más audaz cuando está activo */
+    font-weight: 600;
 }
 .sidebar-menu li.active a i {
     color: #fff;
@@ -254,10 +368,10 @@ a.album-link {
 .sidebar-menu i {
     margin-right: 15px;
     font-size: 1.3rem;
-    color: #888; /* Iconos más sutiles por defecto */
+    color: #888;
     transition: color 0.2s ease-in-out;
 }
 
 .sidebar-menu li:not(.active) a:hover i {
-    color: #e6a7c1; /* Color de icono al pasar el mouse */
+    color: #e6a7c1;
 }

@@ -1,43 +1,69 @@
-/* Layout general con sidebar a la derecha */
-.page-layout {
-  display: flex;
-  flex-direction: row; /* Por defecto es row, pero lo aclaramos */
-  height: 100vh;
-  background-color: rgb(228, 204, 218);
+/* --- GLOBAL STYLES & LAYOUT (Re-use from Home/Amigos) --- */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #e9ecef;
+}
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.main-layout {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+.content-area {
+    flex-grow: 1;
+    background-color: #fcf6fa; /* Light, subtle pink */
+    padding: 30px;
+    overflow-y: auto;
+}
+.container-fluid {
+    max-width: 1400px; /* Consistent with other pages */
+    margin: 0 auto;
+}
+.top-nav {
+    background-color: #fdfdfd; /* Pure white for top bar */
+    border-bottom: 1px solid #f0f0f0; /* Softer border */
+    flex-shrink: 0;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.navbar-brand {
+    font-weight: 600;
+    color: #333;
+}
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+    transition: all 0.2s ease-in-out;
+}
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
 }
 
-/* Contenido principal */
-.content {
-  flex-grow: 1;
-  padding: 40px;
-  overflow-y: auto;
-}
+/* --- SOLICITUDES SPECIFIC STYLES --- */
 
-/* Contenedor de solicitudes */
+/* Contenedor principal de solicitudes */
 .solicitudes-container {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  max-width: 800px;
-  margin: 0 auto;
+  background-color: #ffffff; /* White background */
+  padding: 35px; /* More padding */
+  border-radius: 16px; /* Slightly more rounded */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
+  max-width: 900px; /* Slightly wider */
+  margin: 40px auto; /* Centered with top/bottom margin */
 }
 
-/* Título */
-h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 25px;
-  color: #212529;
-}
-
-/* Texto cuando no hay solicitudes */
-.no-solicitudes {
-  color: #6c757d;
-  font-size: 1rem;
-  font-style: italic;
-  margin-top: 15px;
-  text-align: center;
+/* Título de la sección */
+.section-title {
+  font-size: 2rem; /* Larger title */
+  font-weight: 700; /* Bolder */
+  margin-bottom: 30px; /* More space below title */
+  color: #333; /* Darker color */
+  text-align: center; /* Centered title */
 }
 
 /* Lista de solicitudes */
@@ -47,63 +73,182 @@ h2 {
   margin: 0;
 }
 
-/* Ítem de solicitud */
-.solicitud-item {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 12px;
+/* Tarjeta individual de solicitud */
+.solicitud-card {
+  background-color: #fdfdfd; /* Pure white for cards */
+  border: 1px solid #f0f0f0; /* Very subtle border */
+  padding: 20px 25px; /* Generous padding */
+  margin-bottom: 18px; /* Space between cards */
+  border-radius: 12px; /* Consistent rounded corners */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space out items */
+  align-items: center; /* Align vertically */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Soft shadow for cards */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.solicitud-card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+
+/* Información del usuario (avatar + username) */
+.user-info {
+  display: flex;
   align-items: center;
-  transition: background-color 0.3s ease;
+  gap: 15px; /* Space between avatar and username */
 }
 
-.solicitud-item:hover {
-  background-color: #e9ecef;
-}
-
-/* Info del usuario */
-.solicitud-info {
+.avatar-placeholder {
+  width: 50px; /* Size of avatar */
+  height: 50px;
+  border-radius: 50%; /* Circular */
+  background-color: #e6a7c1; /* Pink background for avatar */
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff; /* White icon color */
+  font-size: 1.8rem; /* Size of icon within avatar */
 }
 
-.user-name {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #343a40;
+.user-name strong {
+  font-size: 1.15rem; /* Larger username text */
+  color: #333; /* Darker text */
+  font-weight: 600; /* Bolder */
 }
 
-/* Botones */
+/* Contenedor de botones de acción */
 .acciones {
   display: flex;
-  gap: 12px;
+  gap: 15px; /* Space between buttons */
 }
 
+/* Estilo base para todos los botones */
 .btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  padding: 12px 25px; /* More padding for bigger buttons */
+  border-radius: 8px; /* Consistent rounded buttons */
+  font-size: 0.95rem; /* Slightly larger text */
+  font-weight: 600; /* Bolder text */
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.btn-aceptar {
-  background-color: #198754;
+/* Botón Aceptar */
+.btn-accept {
+  background-color: #28a745; /* Green */
   color: #fff;
 }
-.btn-aceptar:hover {
-  background-color: #157347;
+.btn-accept:hover {
+  background-color: #218838; /* Darker green */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(40, 167, 69, 0.3);
 }
 
-.btn-rechazar {
-  background-color: #dc3545;
+/* Botón Rechazar */
+.btn-reject {
+  background-color: #dc3545; /* Red */
   color: #fff;
 }
-.btn-rechazar:hover {
-  background-color: #bb2d3b;
+.btn-reject:hover {
+  background-color: #c82333; /* Darker red */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(220, 53, 69, 0.3);
+}
+
+/* --- NO SOLICITUDES STATE --- */
+.no-solicitudes-container {
+  padding: 60px 20px;
+  background-color: #fff7fa; /* Very light pink background */
+  border: 1px dashed #e6a7c1; /* Dashed pink border */
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 30px; /* Space from the title */
+  max-width: 650px; /* Constrain width */
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Soft shadow */
+}
+
+.no-solicitudes-icon {
+  font-size: 4.5rem; /* Large icon */
+  color: #e6a7c1; /* Pink color for the icon */
+  margin-bottom: 25px;
+  display: block; /* Ensure it takes full width */
+}
+
+.no-solicitudes-message {
+  font-size: 1.25rem;
+  color: #777;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* --- SIDEBAR STYLES (Consistent with previous pages) --- */
+app-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 280px;
+  flex-shrink: 0;
+  background-color: #fdfdfd;
+  border-left: 1px solid #f0f0f0;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.03);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #555;
+    font-size: 1.05rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar-menu li:not(.active) a:hover {
+    background-color: #f8f8f8;
+    color: #333;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.sidebar-menu li.active a {
+    background-color: #e6a7c1;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(230, 167, 193, 0.4);
+    font-weight: 600;
+}
+.sidebar-menu li.active a i {
+    color: #fff;
+}
+
+.sidebar-menu .home-button-li {
+    margin-top: auto;
+}
+
+.sidebar-menu i {
+    margin-right: 15px;
+    font-size: 1.3rem;
+    color: #888;
+    transition: color 0.2s ease-in-out;
+}
+
+.sidebar-menu li:not(.active) a:hover i {
+    color: #e6a7c1;
 }
