@@ -18,7 +18,7 @@
           <div class="user-info">
             <h2>{{ '@' + username }}</h2>
             <p>Correo: {{ correo }}</p>
-            <p>Miembro desde: 01/01/2024</p>
+            <p>Miembro desde: {{ fechaRegistro }}</p>
           </div>
         </div>
 
@@ -82,7 +82,12 @@
 
             <div class="modal-body">
               <input type="text" class="form-control" placeholder="Título" [(ngModel)]="nuevaPublicacion" />
-              <input type="file" class="form-control mt-3" (change)="onFileSelected($event)" />
+              <input
+                type="text"
+                class="form-control mt-3"
+                placeholder="URL de la imagen (assets/ejemplo.jpg)"
+                [(ngModel)]="urlPublicacion"
+              />
             </div>
 
             <div class="modal-footer">
@@ -114,8 +119,18 @@
                 [(ngModel)]="nuevoAlbum.descripcion"
               ></textarea>
 
-              <input type="file" class="form-control" multiple (change)="onImagenesSeleccionadas($event)" />
+              <div *ngFor="let imagen of nuevoAlbum.imagenes; let i = index" class="mb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="URL de imagen (assets/ejemplo.jpg)"
+                  [(ngModel)]="nuevoAlbum.imagenes[i]"
+                />
+              </div>
+
+              <button class="btn btn-sm btn-outline-primary mt-2" (click)="agregarImagenUrl()">+ Agregar otra imagen</button>
             </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-success" (click)="crearAlbum()">Crear</button>
               <button type="button" class="btn btn-secondary" (click)="cerrarModalAlbum()">Cancelar</button>

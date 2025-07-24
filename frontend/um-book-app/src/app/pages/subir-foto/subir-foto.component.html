@@ -1,0 +1,24 @@
+<!-- subir-foto.component.html -->
+<div class="container">
+  <h2>Subir Foto al Muro</h2>
+
+  <form (ngSubmit)="subirFoto()" #fotoForm="ngForm">
+    <div>
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" [(ngModel)]="titulo" name="titulo" required>
+    </div>
+
+    <div>
+      <label for="url">URL de la imagen:</label>
+      <input type="text" id="url" [(ngModel)]="url" name="url" required>
+    </div>
+
+    <!-- Si querés subir a un álbum específico -->
+    <div>
+      <label for="albumId">ID del Álbum (opcional):</label>
+      <input type="number" id="albumId" [(ngModel)]="albumId" name="albumId">
+    </div>
+
+    <button type="submit">Subir Foto</button>
+  </form>
+</div>

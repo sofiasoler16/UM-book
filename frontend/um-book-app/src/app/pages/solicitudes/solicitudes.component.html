@@ -1,21 +1,33 @@
-<div class="solicitudes-container">
-  <h2>Solicitudes recibidas</h2>
+<div class="page-layout">
+  <div class="content">
+    <div class="solicitudes-container">
+      <h2>Solicitudes recibidas</h2>
 
-  <!-- Si no hay solicitudes -->
-  <p *ngIf="solicitudes.length === 0" class="no-solicitudes">
-    No tienes solicitudes pendientes por ahora.
-  </p>
+      <!-- Si no hay solicitudes -->
+      <p *ngIf="solicitudes.length === 0" class="no-solicitudes">
+        No tienes solicitudes pendientes por ahora.
+      </p>
 
-  <!-- Lista de solicitudes -->
-  <ul class="solicitudes-list" *ngIf="solicitudes.length > 0">
-    <li *ngFor="let s of solicitudes" class="solicitud-item">
-      <div class="solicitud-info">
-        <p class="user-name">Usuario: <strong>{{ s.sender_username }}</strong></p>
-      </div>
-      <div class="acciones">
-        <button class="btn btn-aceptar" (click)="responderSolicitud(s.id, 'accept')">Aceptar</button>
-        <button class="btn btn-rechazar" (click)="responderSolicitud(s.id, 'reject')">Rechazar</button>
-      </div>
-    </li>
-  </ul>
+      <!-- Lista de solicitudes -->
+      <ul class="solicitudes-list" *ngIf="solicitudes.length > 0">
+        <li *ngFor="let s of solicitudes" class="solicitud-item">
+          <div class="solicitud-info">
+            <p class="user-name">
+              Usuario: <strong>{{ s.sender_username }}</strong>
+            </p>
+          </div>
+          <div class="acciones">
+            <button class="btn btn-aceptar" (click)="responderSolicitud(s.id, 'accept')">
+              Aceptar
+            </button>
+            <button class="btn btn-rechazar" (click)="responderSolicitud(s.id, 'reject')">
+              Rechazar
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <app-sidebar></app-sidebar>
 </div>

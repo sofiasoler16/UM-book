@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { UserService } from '../../services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
@@ -16,15 +17,17 @@ export class PerfilComponent implements OnInit {
   correo: string = '';
   fechaRegistro: string = '';
   publicaciones: any[] = [];
+
   mostrarModalPublicacion: boolean = false;
   mostrarModalAlbum: boolean = false;
+
   nuevaPublicacion: string = '';
-  imagenSeleccionada: File | null = null;
+  urlPublicacion: string = '';
 
   nuevoAlbum: {
     nombre: string;
     descripcion: string;
-    imagenes: File[];
+    imagenes: string[]; // URLs de imágenes
   } = {
     nombre: '',
     descripcion: '',
@@ -32,13 +35,17 @@ export class PerfilComponent implements OnInit {
   };
 
   albumes: {
+    id?: number;
     nombre: string;
     descripcion: string;
     imagenes: { url: string }[];
     expandido: boolean;
   }[] = [];
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     const userId = this.getUserIdFromToken();
@@ -50,6 +57,45 @@ export class PerfilComponent implements OnInit {
         this.username = actual.username;
         this.correo = actual.email;
         this.fechaRegistro = actual.fecha_registro || '01/01/2024';
+      }
+    });
+
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    // Cargar publicaciones (fotos sin álbum)
+    this.http.get<any[]>(`http://127.0.0.1:5000/fotos/usuario/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (fotos) => {
+        this.publicaciones = fotos
+          .filter(f => !f.album_id)
+          .map(foto => ({
+            titulo: foto.titulo,
+            fecha: foto.fecha || 'Desconocida',
+            imagen: foto.url
+          }));
+      },
+      error: (err) => {
+        console.error('Error al cargar fotos:', err);
+      }
+    });
+
+    // Cargar álbumes
+    this.http.get<any[]>(`http://127.0.0.1:5000/albums/usuario/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (albums) => {
+        this.albumes = albums.map((album: any) => ({
+          id: album.id,
+          nombre: album.titulo,
+          descripcion: album.descripcion,
+          imagenes: album.fotos.map((f: { url: string }) => ({ url: f.url })),
+          expandido: false
+        }));
+      },
+      error: (err) => {
+        console.error('Error al cargar álbumes:', err);
       }
     });
   }
@@ -75,23 +121,34 @@ export class PerfilComponent implements OnInit {
     this.mostrarModalPublicacion = false;
   }
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.imagenSeleccionada = input.files[0];
-    }
-  }
-
   publicar() {
-    if (this.nuevaPublicacion.trim() !== '' && this.imagenSeleccionada) {
-      this.publicaciones.push({
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    if (this.nuevaPublicacion.trim() && this.urlPublicacion.trim()) {
+      const body = {
         titulo: this.nuevaPublicacion,
-        fecha: new Date().toLocaleDateString(),
-        imagen: URL.createObjectURL(this.imagenSeleccionada)
+        url: this.urlPublicacion,
+        album_id: null
+      };
+
+      this.http.post('http://127.0.0.1:5000/fotos', body, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).subscribe({
+        next: () => {
+          this.publicaciones.push({
+            titulo: this.nuevaPublicacion,
+            fecha: new Date().toLocaleDateString(),
+            imagen: this.urlPublicacion
+          });
+          this.nuevaPublicacion = '';
+          this.urlPublicacion = '';
+          this.cerrarModalPublicacion();
+        },
+        error: (err) => {
+          console.error('Error al subir la publicación:', err);
+        }
       });
-      this.nuevaPublicacion = '';
-      this.imagenSeleccionada = null;
-      this.cerrarModalPublicacion();
     }
   }
 
@@ -103,28 +160,57 @@ export class PerfilComponent implements OnInit {
     this.mostrarModalAlbum = false;
   }
 
-  onImagenesSeleccionadas(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.nuevoAlbum.imagenes = Array.from(input.files);
-    }
+  agregarImagenUrl(): void {
+    this.nuevoAlbum.imagenes.push('');
   }
 
   crearAlbum() {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
     if (this.nuevoAlbum.nombre.trim() && this.nuevoAlbum.imagenes.length > 0) {
-      const imagenes = this.nuevoAlbum.imagenes.map(file => ({
-        url: URL.createObjectURL(file)
-      }));
+      const albumBody = {
+        titulo: this.nuevoAlbum.nombre,
+        descripcion: this.nuevoAlbum.descripcion
+      };
 
-      this.albumes.push({
-        nombre: this.nuevoAlbum.nombre,
-        descripcion: this.nuevoAlbum.descripcion,
-        imagenes,
-        expandido: false
+      this.http.post<any>('http://127.0.0.1:5000/albums', albumBody, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).subscribe({
+        next: (res) => {
+          const albumId = res.album_id;
+          const imagenes = this.nuevoAlbum.imagenes;
+
+          const peticiones = imagenes.map(url =>
+            this.http.post('http://127.0.0.1:5000/fotos', {
+              titulo: 'Imagen',
+              url,
+              album_id: albumId
+            }, {
+              headers: { Authorization: `Bearer ${token}` }
+            })
+          );
+
+          Promise.all(peticiones.map(p => p.toPromise()))
+            .then(() => {
+              this.albumes.push({
+                nombre: this.nuevoAlbum.nombre,
+                descripcion: this.nuevoAlbum.descripcion,
+                imagenes: imagenes.map(url => ({ url })),
+                expandido: false
+              });
+
+              this.nuevoAlbum = { nombre: '', descripcion: '', imagenes: [] };
+              this.cerrarModalAlbum();
+            })
+            .catch((err) => {
+              console.error('Error al subir imágenes del álbum:', err);
+            });
+        },
+        error: (err) => {
+          console.error('Error al crear álbum:', err);
+        }
       });
-
-      this.nuevoAlbum = { nombre: '', descripcion: '', imagenes: [] };
-      this.cerrarModalAlbum();
     } else {
       alert('El álbum debe tener un nombre y al menos una imagen.');
     }

@@ -182,3 +182,17 @@ class CrearAlbumResource(Resource):
         db.session.commit()
 
         return {"message": "Álbum creado exitosamente", "album_id": album.id}, 201
+class FotosPorUsuarioResource(Resource):
+    @jwt_required()
+    def get(self, usuario_id):
+        fotos = Foto.query.filter_by(usuario_id=usuario_id).all()
+        return [
+            {
+                "id": f.id,
+                "titulo": f.titulo,
+                "url": f.url,
+                "usuario_id": f.usuario_id,
+                "album_id": f.album_id,
+                "fecha": f.fecha_subida.strftime('%d/%m/%Y') if f.fecha_subida else 'Desconocida'
+            } for f in fotos
+        ], 200

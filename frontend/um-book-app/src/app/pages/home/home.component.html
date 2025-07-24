@@ -10,14 +10,13 @@
     <div class="main-layout">
       <main class="content-area">
         <div class="container-fluid">
-          <div class="row g-5">
-
-            <!-- Álbumes de amigos -->
-            <div class="col-lg-6" *ngFor="let album of albumesAmigos">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="col" *ngFor="let album of albumesAmigos">
               <a [routerLink]="['/album', album.id]" class="album-link">
                 <div class="polaroid-stack">
-                  <div class="polaroid-bg" style="transform: rotate(-5deg);"></div>
-                  <div class="polaroid-bg" style="transform: rotate(3deg);"></div>
+                  <div class="polaroid-bg rotate-neg-sm"></div>
+                  <div class="polaroid-bg rotate-pos-sm"></div>
+                  <div class="polaroid-bg rotate-neg-lg"></div>
                   <div class="polaroid-main">
                     <span class="user-name">{{ '@' + album.username }}</span>
                     <div class="image-container">
@@ -32,8 +31,7 @@
               </a>
             </div>
 
-            <!-- Fotos sueltas de amigos -->
-            <div class="col-lg-6" *ngFor="let foto of fotosAmigos">
+            <div class="col" *ngFor="let foto of fotosAmigos">
               <div class="photo-card">
                 <span class="user-name">{{ '@' + foto.username }}</span>
                 <div class="image-container">
@@ -45,11 +43,9 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </main>
-
       <app-sidebar></app-sidebar>
     </div>
   </div>

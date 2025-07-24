@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FriendService } from '../../services/friend.service';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-solicitudes',
@@ -11,7 +12,8 @@ import { FriendService } from '../../services/friend.service';
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SidebarComponent
   ],
   templateUrl: './solicitudes.component.html',
   styleUrls: ['./solicitudes.component.css']

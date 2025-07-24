@@ -16,164 +16,233 @@ body {
 }
 .content-area {
     flex-grow: 1;
-    background-color: #fdecf2; /* Fondo Rosa */
-    padding: 40px;
+    background-color: #fcf6fa; /* Mucho más claro y sutil rosa */
+    padding: 30px; /* Reducido ligeramente para más items */
     overflow-y: auto;
+}
+.container-fluid {
+    max-width: 1400px; /* Aumentado para tres columnas */
+    margin: 0 auto;
 }
 
 /* ESTILO PARA LOS ÁLBUMES */
 a.album-link {
     text-decoration: none;
     color: inherit;
+    display: block;
 }
 .polaroid-stack {
     position: relative;
     width: 100%;
-    height: 100%;
-    min-height: 400px; /* Asegura una altura mínima */
+    min-height: 380px; /* Ajustada altura mínima */
+    margin-bottom: 20px; /* Espacio debajo de cada polaroid */
+    perspective: 1000px; /* Para futuros efectos 3D si se desea */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+.polaroid-stack:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
 /* Polaroids de fondo (blancas) */
 .polaroid-bg {
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 10px); /* Ligeramente más pequeñas */
+    height: calc(100% - 10px);
     border-radius: 8px;
+    top: 5px;
+    left: 5px;
+    opacity: 0.8; /* Más sutil */
 }
+.polaroid-bg:nth-child(1) {
+    transform: rotate(-4deg);
+    top: 0;
+    left: 0;
+    z-index: 5;
+    opacity: 0.7;
+}
+.polaroid-bg:nth-child(2) {
+    transform: rotate(2deg);
+    top: 3px;
+    left: 3px;
+    z-index: 6;
+    opacity: 0.8;
+}
+.polaroid-bg:nth-child(3) { /* Nueva capa */
+    transform: rotate(-1deg);
+    top: 6px;
+    left: 6px;
+    z-index: 7;
+    opacity: 0.9;
+}
+
 /* Polaroid principal (gris, la que se ve al frente) */
 .polaroid-main {
     position: relative;
     z-index: 10;
-    background-color: #f8f9fa; /* FONDO GRIS SOLICITADO */
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fdfdfd; /* Blanco casi puro para el frente */
+    border-radius: 10px; /* Ligeramente más redondeado */
+    padding: 20px; /* Más padding */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Sombra más pronunciada */
     height: 100%;
     display: flex;
     flex-direction: column;
-    height: 400px; /* o lo que quieras como altura fija */
+    height: 380px; /* Altura fija */
     overflow: hidden;
+    transition: all 0.3s ease-in-out;
 }
-.polaroid-main img {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    height: 100%;
-    border-radius: 4px;
-}
-
-/* ESTILO PARA LAS FOTOS INDIVIDUALES */
-.photo-card img {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 250px;
-    height: auto;
-    border-radius: 4px;
-}
-
-.image-container {
-    flex-grow: 1; /* Ocupa el espacio vertical disponible */
+.polaroid-main .image-container {
+    flex-grow: 1;
     width: 100%;
-    background-color: rgb(228, 204, 218); /* <-- Este es el fondo blanco para los bordes */
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Asegura que nada se salga */
+    overflow: hidden;
+    margin-bottom: 15px; /* Espacio entre imagen y texto */
+    background-color: #eee; /* Fondo neutro para el contenedor de imagen */
+}
+.polaroid-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cambiado a cover para llenar el espacio */
+    border-radius: 6px;
+    display: block;
 }
 
 /* ESTILO PARA LAS FOTOS INDIVIDUALES */
 .photo-card {
-    background-color: #f8f9fa; /* FONDO GRIS SOLICITADO */
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fdfdfd; /* Blanco casi puro */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 380px; /* Consistente con álbumes */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.photo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+.photo-card .image-container {
+    flex-grow: 1;
+    width: 100%;
+    background-color: #eee;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cambiado a cover */
+    border-radius: 6px;
+    display: block;
 }
 
 /* ESTILOS DE TEXTO COMUNES (Dentro de las tarjetas) */
 .user-name {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+    font-size: 1rem; /* Ligeramente más grande */
+    font-weight: 600; /* Más audaz */
+    color: #444;
+    margin-bottom: 12px; /* Más espacio */
+    text-align: left; /* Alineado a la izquierda */
 }
 .text-content {
-    padding-top: 15px; /* Espacio entre la imagen y el texto */
-    text-align: center;
+    padding-top: 0; /* Ya tenemos margin-bottom en image-container */
+    text-align: left; /* Alineado a la izquierda */
 }
 .card-title {
     font-weight: 500;
     color: #333;
     margin: 0;
+    font-size: 1.1rem; /* Ligeramente más grande */
 }
 .upload-date {
-    font-size: 0.8rem;
-    color: #888;
-    margin-top: 4px;
+    font-size: 0.85rem; /* Ligeramente más grande */
+    color: #777;
+    margin-top: 6px;
 }
 
 .top-nav {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
+    background-color: #fdfdfd; /* Blanco puro para la barra superior */
+    border-bottom: 1px solid #f0f0f0; /* Borde más sutil */
     flex-shrink: 0;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.navbar-brand {
+    font-weight: 600;
+    color: #333;
+}
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
 }
 
-/* BARRA LATERAL DERECHA (Sin cambios) */
-/* --- BARRA LATERAL DERECHA (DISEÑO MEJORADO) --- */
+
+/* BARRA LATERAL DERECHA (Con ajustes para armonizar) */
 .sidebar {
     width: 280px;
     flex-shrink: 0;
-    background-color: #f8f9fa;
-    border-left: 1px solid #dee2e6;
+    background-color: #fdfdfd; /* Blanco puro */
+    border-left: 1px solid #f0f0f0; /* Borde más sutil */
     padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.03);
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 0;
     margin: 0;
-    /* Flexbox para controlar el layout interno */
     display: flex;
     flex-direction: column;
-    height: 100%; /* Ocupa toda la altura para empujar Home abajo */
+    height: 100%;
 }
 
 .sidebar-menu li a {
-    display: flex; /* Cambiado a flex para alinear ícono y texto */
+    display: flex;
     align-items: center;
     padding: 15px 20px;
     text-decoration: none;
-    color: #495057; /* Texto un poco más oscuro */
-    font-size: 1.1rem;
+    color: #555; /* Texto un poco más oscuro */
+    font-size: 1.05rem; /* Ajustado */
     font-weight: 500;
-    border: 1px solid #dee2e6;
-    border-radius: 12px; /* <-- BORDES MÁS REDONDEADOS */
-    margin-bottom: 12px;
-    background-color: #fff;
-    transition: all 0.2s ease-in-out; /* Transición más suave */
+    border: none; /* Eliminado el borde */
+    border-radius: 10px; /* <-- BORDES MÁS REDONDEADOS */
+    margin-bottom: 10px; /* Menos espacio entre items */
+    background-color: transparent; /* Fondo transparente por defecto */
+    transition: all 0.2s ease-in-out;
 }
 
 /* Efecto al pasar el mouse (solo si no es el botón activo) */
 .sidebar-menu li:not(.active) a:hover {
-    background-color: #e9ecef;
-    border-color: #ced4da;
-    transform: translateY(-2px); /* Pequeño efecto de elevación */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    background-color: #f8f8f8; /* Un gris muy claro */
+    color: #333;
+    transform: translateX(5px); /* Deslizamiento sutil */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 /* --- ESTILO PARA EL BOTÓN ACTIVO (MÁS OSCURO) --- */
 .sidebar-menu li.active a {
-    background-color: #e6a7c1; /* Un rosa oscuro más armónico */
-    border-color: #e6a7c1;
-    color: #fff; /* Texto blanco para mejor contraste */
+    background-color: #e6a7c1;
+    color: #fff;
     box-shadow: 0 4px 12px rgba(230, 167, 193, 0.4);
+    font-weight: 600; /* Más audaz cuando está activo */
 }
 .sidebar-menu li.active a i {
-    color: #fff; /* Ícono también en blanco */
+    color: #fff;
 }
 
 /* Empuja el botón Home hacia abajo */
@@ -183,15 +252,12 @@ a.album-link {
 
 /* Estilo de los íconos */
 .sidebar-menu i {
-    margin-right: 15px; /* Más espacio entre ícono y texto */
+    margin-right: 15px;
     font-size: 1.3rem;
-    color: #6c757d;
+    color: #888; /* Iconos más sutiles por defecto */
+    transition: color 0.2s ease-in-out;
 }
 
-/* Limitar el ancho total del contenido en pantallas grandes */
-.container-fluid {
-    max-width: 1200px;
-    margin: 0 auto;
+.sidebar-menu li:not(.active) a:hover i {
+    color: #e6a7c1; /* Color de icono al pasar el mouse */
 }
-
-

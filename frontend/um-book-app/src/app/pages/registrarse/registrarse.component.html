@@ -1,44 +1,42 @@
-<body>
-
-
-    <div class="register-container">
-        <h1 class="register-title">Registrarse</h1>
-
-        <form (ngSubmit)="onSubmit()">
-        <div class="row">
-            <div class="col-md-7">
-            <div class="form-group">
-                <label>Nombre</label>
-                <input [(ngModel)]="nombre" name="nombre" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Apellido</label>
-                <input [(ngModel)]="apellido" name="apellido" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Nombre de Usuario</label>
-                <input [(ngModel)]="username" name="username" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input [(ngModel)]="email" name="email" type="email" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Fecha de Nacimiento</label>
-                <input [(ngModel)]="fecha_nacimiento" name="fecha_nacimiento" type="date" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Contraseña</label>
-                <input [(ngModel)]="password" name="password" type="password" class="form-control" required>
-            </div>
-            </div>
-
-            <div class="col-md-5 d-flex align-items-center justify-content-center">
-            <button type="submit" class="btn btn-pink mt-4">Confirmar</button>
-            </div>
-        </div>
-        </form>
-
+<div class="register-wrapper">
+  <div class="register-card">
+    <div class="left-panel">
+      <h1>¡Bienvenido!</h1>
+      <p>Crea tu cuenta para unirte a UMBook, conectarte con tus amigos y compartir tus momentos.</p>
+      <img src="assets/register-illustration.svg" alt="Ilustración de registro" />
     </div>
 
-</body>
+    <div class="right-panel">
+      <h2 class="form-title">Registrarse</h2>
+
+      <form (ngSubmit)="onSubmit()" class="register-form">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input [(ngModel)]="nombre" name="nombre" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input [(ngModel)]="apellido" name="apellido" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Nombre de Usuario</label>
+          <input [(ngModel)]="username" name="username" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input [(ngModel)]="email" name="email" type="email" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Fecha de Nacimiento</label>
+          <input [(ngModel)]="fecha_nacimiento" name="fecha_nacimiento" type="date" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input [(ngModel)]="password" name="password" type="password" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn-submit">Confirmar</button>
+      </form>
+    </div>
+  </div>
+</div>

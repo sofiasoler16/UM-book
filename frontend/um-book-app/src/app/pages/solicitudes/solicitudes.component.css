@@ -1,38 +1,55 @@
-/* Contenedor principal */
+/* Layout general con sidebar a la derecha */
+.page-layout {
+  display: flex;
+  flex-direction: row; /* Por defecto es row, pero lo aclaramos */
+  height: 100vh;
+  background-color: rgb(228, 204, 218);
+}
+
+/* Contenido principal */
+.content {
+  flex-grow: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+/* Contenedor de solicitudes */
 .solicitudes-container {
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  max-width: 700px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
   margin: 0 auto;
 }
 
 /* Título */
 h2 {
-  margin-bottom: 25px;
+  font-size: 1.8rem;
   font-weight: 600;
-  color: #333;
+  margin-bottom: 25px;
+  color: #212529;
 }
 
-/* Mensaje si no hay solicitudes */
+/* Texto cuando no hay solicitudes */
 .no-solicitudes {
-  color: #666;
+  color: #6c757d;
   font-size: 1rem;
-  margin-top: 15px;
   font-style: italic;
+  margin-top: 15px;
+  text-align: center;
 }
 
-/* Lista sin puntos */
+/* Lista de solicitudes */
 .solicitudes-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* Ítem individual */
+/* Ítem de solicitud */
 .solicitud-item {
-  background-color: #fff;
+  background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   padding: 20px;
   margin-bottom: 20px;
@@ -40,15 +57,14 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.3s ease;
 }
 
 .solicitud-item:hover {
-  background-color: #f1f3f5;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  background-color: #e9ecef;
 }
 
-/* Información del usuario */
+/* Info del usuario */
 .solicitud-info {
   display: flex;
   flex-direction: column;
@@ -57,14 +73,13 @@ h2 {
 .user-name {
   font-size: 1rem;
   font-weight: 500;
-  color: #333;
-  margin: 0;
+  color: #343a40;
 }
 
 /* Botones */
 .acciones {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .btn {
@@ -74,7 +89,7 @@ h2 {
   font-weight: 500;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease;
 }
 
 .btn-aceptar {

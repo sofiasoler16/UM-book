@@ -6,6 +6,7 @@ import { BuscarUserComponent } from './pages/buscar-user/buscar-user.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component'; 
 import { AmigosComponent } from './pages/amigos/amigos.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { SubirFotoComponent } from './pages/subir-foto/subir-foto.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -16,6 +17,8 @@ export const routes: Routes = [
   { path: 'solicitudes', component: SolicitudesComponent },
   { path: 'amigos', component: AmigosComponent },
   { path: 'perfil', component: PerfilComponent },
+  { path: 'subir-foto',component: SubirFotoComponent}
+
    
 ];
   
