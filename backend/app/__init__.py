@@ -7,7 +7,7 @@ from flask_cors import CORS
 from app.routes.user_routes import UserResource
 from app.routes.auth_routes import LoginResource
 from app.routes.album_routes import AlbumResource, AlbumDetailResource
-from app.routes.foto_routes import AlbumAmigosResource, FotoAmigosResource, FotoResource, FotosPorUsuarioResource
+from app.routes.foto_routes import AlbumAmigosResource, AlbumUsuarioResource, CrearAlbumResource, FotoAmigosResource, FotoResource, FotosPorUsuarioResource
 from app.routes.friend_routes import (
     DeleteFriendResource,
     FriendsListResource,
@@ -44,6 +44,9 @@ def create_app():
     api.add_resource(FotoAmigosResource, '/fotos/amigos')
     api.add_resource(FotosPorUsuarioResource, '/fotos/usuario/<int:usuario_id>')
     api.add_resource(AlbumAmigosResource, '/albums/amigos')
+    api.add_resource(AlbumUsuarioResource, '/albums/usuario/<int:usuario_id>')
+    api.add_resource(CrearAlbumResource, '/albums')  # POST
+
 
 
 

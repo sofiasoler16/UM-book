@@ -7,6 +7,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.user import User
 from app.models.friendship import Friendship
 
+# ------------------------------
+# PUBLICACIÓN INDIVIDUAL
+# ------------------------------
+
 class FotoResource(Resource):
     @jwt_required()
     def post(self):
@@ -16,13 +20,12 @@ class FotoResource(Resource):
 
         if album_id is not None:
             album = Album.query.get_or_404(album_id)
-            album_id = album.id
 
         foto = Foto(
             titulo=data['titulo'],
             url=data['url'],
             album_id=album_id,
-            user_id=user_id
+            usuario_id=user_id
         )
         db.session.add(foto)
         db.session.commit()
@@ -32,7 +35,7 @@ class FotoResource(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
-        fotos = Foto.query.filter_by(user_id=user_id).all()
+        fotos = Foto.query.filter_by(usuario_id=user_id).all()
 
         return [
             {
@@ -43,12 +46,15 @@ class FotoResource(Resource):
             } for f in fotos
         ], 200
 
+# ------------------------------
+# FOTOS DE AMIGOS
+# ------------------------------
+
 class FotoAmigosResource(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
 
-        # Buscar relaciones mutuas aceptadas
         amigos = Friendship.query.filter(
             ((Friendship.user_id == user_id) | (Friendship.friend_id == user_id))
         ).all()
@@ -72,6 +78,10 @@ class FotoAmigosResource(Resource):
             } for f in fotos_amigos
         ], 200
 
+# ------------------------------
+# FOTOS DE UN USUARIO
+# ------------------------------
+
 class FotosPorUsuarioResource(Resource):
     @jwt_required()
     def get(self, usuario_id):
@@ -86,12 +96,15 @@ class FotosPorUsuarioResource(Resource):
             } for f in fotos
         ], 200
 
+# ------------------------------
+# ALBUMES DE AMIGOS
+# ------------------------------
+
 class AlbumAmigosResource(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
 
-        # Obtener relaciones de amistad (mutuas)
         amistades = Friendship.query.filter(
             ((Friendship.user_id == user_id) | (Friendship.friend_id == user_id))
         ).all()
@@ -111,10 +124,61 @@ class AlbumAmigosResource(Resource):
             fotos = Foto.query.filter_by(album_id=album.id).all()
             resultado.append({
                 "id": album.id,
-                "nombre": album.nombre,
+                "nombre": album.titulo,
                 "fecha": album.fecha_creacion.strftime('%d/%m/%Y') if album.fecha_creacion else "Fecha desconocida",
                 "username": usuario.username if usuario else "desconocido",
                 "imagenes": [f.url for f in fotos]
             })
 
         return resultado, 200
+
+# ------------------------------
+# ALBUMES DEL USUARIO
+# ------------------------------
+
+class AlbumUsuarioResource(Resource):
+    @jwt_required()
+    def get(self, usuario_id):
+        albums = Album.query.filter_by(usuario_id=usuario_id).all()
+        resultado = []
+        for album in albums:
+            fotos = Foto.query.filter_by(album_id=album.id).all()
+            resultado.append({
+                "id": album.id,
+                "nombre": album.titulo,
+                "descripcion": album.descripcion,
+                "fecha_creacion": album.fecha_creacion.isoformat(),
+                "imagenes": [{"url": f.url, "titulo": f.titulo} for f in fotos]
+            })
+        return resultado, 200
+
+# ------------------------------
+# CREAR ÁLBUM CON FOTOS
+# ------------------------------
+
+class CrearAlbumResource(Resource):
+    @jwt_required()
+    def post(self):
+        data = request.get_json()
+        user_id = get_jwt_identity()
+
+        album = Album(
+            titulo=data['titulo'],
+            descripcion=data.get('descripcion', ''),
+            usuario_id=user_id
+        )
+        db.session.add(album)
+        db.session.flush()  # para obtener el ID antes del commit
+
+        for foto in data.get('fotos', []):
+            nueva_foto = Foto(
+                titulo=foto['titulo'],
+                url=foto['url'],
+                usuario_id=user_id,
+                album_id=album.id
+            )
+            db.session.add(nueva_foto)
+
+        db.session.commit()
+
+        return {"message": "Álbum creado exitosamente", "album_id": album.id}, 201
