@@ -2,7 +2,7 @@ from operator import or_
 from flask_restful import Resource
 from flask import request
 from app.extensions import db
-from app.models.friend_request import FriendRequest
+from app.models.friend_request import FriendRequest, FriendRequestStateContext
 from app.models.user import User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.friendship import Friendship
@@ -68,33 +68,46 @@ class ConfirmFriendRequestResource(Resource):
         user_id = int(get_jwt_identity())
         friend_request = FriendRequest.query.get_or_404(request_id)
 
+        # Crear el contexto del estado para la solicitud
+        request_context = FriendRequestStateContext(friend_request)
+
+        # Verificar permisos
         if friend_request.receiver_id != user_id:
             return {'message': 'No tienes permiso para confirmar esta solicitud.'}, 403
 
         data = request.get_json()
         action = data.get('action')
+
         if action == 'accept':
-            friend_request.status = 'accepted'
+            # Delegar la acción al estado actual
+            response, status_code = request_context.accept_request()
+            if status_code == 200: # Si la acción fue exitosa por el estado
+                # Lógica para crear la amistad, ya que el estado solo maneja la transición del request
+                user1 = min(friend_request.sender_id, friend_request.receiver_id)
+                user2 = max(friend_request.sender_id, friend_request.receiver_id)
 
-            # Ordenar IDs para guardar solo una fila por amistad
-            user1 = min(friend_request.sender_id, friend_request.receiver_id)
-            user2 = max(friend_request.sender_id, friend_request.receiver_id)
-
-            # Verificar si ya existe
-            existing = Friendship.query.filter_by(user_id=user1, friend_id=user2).first()
-            if not existing:
-                db.session.add(Friendship(user_id=user1, friend_id=user2))
-
-            db.session.commit()
-            return {'message': 'Solicitud aceptada y amistad creada.'}, 200
+                existing_friendship = Friendship.query.filter_by(user_id=user1, friend_id=user2).first()
+                if not existing_friendship:
+                    db.session.add(Friendship(user_id=user1, friend_id=user2))
+                db.session.commit() # Commit de los cambios del request y la amistad
+                return {'message': 'Solicitud aceptada y amistad creada.'}, 200
+            else:
+                db.session.rollback() # Si el estado devuelve un error (ej. ya aceptada)
+                return response, status_code # Devolver el error del estado
 
         elif action == 'reject':
-            # Rechazar o eliminar directamente
-            db.session.delete(friend_request)  # o simplemente cambiar a 'rejected'
-            db.session.commit()
-            return {'message': 'Solicitud rechazada y eliminada.'}, 200
+            response, status_code = request_context.reject_request()
+            if status_code == 200: # Si la acción fue exitosa por el estado
+                # Lógica para eliminar la solicitud (si el estado cambió a 'rejected')
+                db.session.delete(friend_request)
+                db.session.commit() # Commit de la eliminación del request
+                return {'message': 'Solicitud rechazada y eliminada.'}, 200
+            else:
+                db.session.rollback() # Si el estado devuelve un error (ej. ya rechazada)
+                return response, status_code # Devolver el error del estado
 
         return {'message': 'Acción inválida.'}, 400
+
 
 class FriendsListResource(Resource):
     @jwt_required()
