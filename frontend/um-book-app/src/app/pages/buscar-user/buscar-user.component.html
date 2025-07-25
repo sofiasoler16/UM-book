@@ -1,60 +1,66 @@
 <body>
-
     <div class="page-container">
         <nav class="navbar top-nav">
             <div class="container-fluid">
                 <span class="navbar-brand mb-0 h1">+ Usuarios</span>
-                <a href="home" class="btn btn-outline-secondary btn-sm">Home</a>
+                <a href="login" class="btn btn-outline-secondary btn-sm">Cerrar Sesión</a>
             </div>
         </nav>
 
         <div class="main-layout">
             <main class="content-area">
-                <div class="search-box">
-                    <input type="text" class="form-control"
+                <div class="search-box-container">
+                    <i class="bi bi-search search-icon"></i>
+                    <input type="text" class="form-control search-input"
                             placeholder="Escribe el nombre del usuario a buscar..."
                             [(ngModel)]="searchTerm">
                 </div>
 
-
-                <div class="user-list">
-                    <div class="user-item"
+                <div class="user-cards-list">
+                    <div class="user-card"
                         *ngFor="let user of usuarios | userFilter: searchTerm">
-
-                        <span>
-                        &#64;{{ user.username }} <span *ngIf="user.esActual">(yo)</span>
-                        </span>
+                        
+                        <div class="user-details">
+                            <div class="user-avatar-small">
+                                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar de usuario">
+                            </div>
+                            <span class="username-display">
+                                &#64;{{ user.username }} <span *ngIf="user.esActual" class="self-tag">(yo)</span>
+                            </span>
+                        </div>
 
                         <button
-                        *ngIf="!user.esActual"
-                        class="btn btn-pink btn-sm"
-                        (click)="enviarSolicitud(user.id)"
-                        [disabled]="solicitudYaEnviada(user.id) || yaEsAmigo(user.id)">
-
-                        {{ yaEsAmigo(user.id) ? 'ya son amigos' :
-                            solicitudYaEnviada(user.id) ? 'solicitud enviada' :
-                            'añadir amigo' }}
+                            *ngIf="!user.esActual"
+                            class="btn add-friend-btn"
+                            [ngClass]="{
+                                'btn-primary': !(solicitudYaEnviada(user.id) || yaEsAmigo(user.id)),
+                                'btn-secondary-disabled': solicitudYaEnviada(user.id),
+                                'btn-success-disabled': yaEsAmigo(user.id)
+                            }"
+                            (click)="enviarSolicitud(user.id)"
+                            [disabled]="solicitudYaEnviada(user.id) || yaEsAmigo(user.id)"
+                        >
+                            <ng-container *ngIf="yaEsAmigo(user.id)">
+                                <i class="bi bi-check-circle-fill me-1"></i> Ya son amigos
+                            </ng-container>
+                            <ng-container *ngIf="!yaEsAmigo(user.id) && solicitudYaEnviada(user.id)">
+                                <i class="bi bi-clock-fill me-1"></i> Solicitud enviada
+                            </ng-container>
+                            <ng-container *ngIf="!yaEsAmigo(user.id) && !solicitudYaEnviada(user.id)">
+                                <i class="bi bi-person-plus-fill me-1"></i> Añadir amigo
+                            </ng-container>
                         </button>
-
                     </div>
+                    
+                    <div *ngIf="(usuarios | userFilter: searchTerm).length === 0" class="no-results-state text-center mt-5">
+                        <i class="bi bi-person-slash no-results-icon"></i>
+                        <p class="no-results-message">No se encontraron usuarios con ese nombre.</p>
+                    </div>
+
                 </div>
-
-
-               
-
-                
             </main>
 
-                <aside class="sidebar">
-                    <ul class="sidebar-menu">
-                        <li><a href="perfil"><i class="bi bi-person-circle"></i> Mi perfil</a></li>
-                        <li class="active"><a href="buscar-user"><i class="bi bi-search"></i> + Usuarios</a></li>
-                        <li><a href="amigos"><i class="bi bi-people-fill"></i> Amigos</a></li>
-                        <li><a href="grupos"><i class="bi bi-grid-3x3-gap-fill"></i> Grupos</a></li>
-
-                        <li class="home-button-li"><a href="home"><i class="bi bi-house-door-fill"></i> Home</a></li>
-                    </ul>
-                </aside>
+            <app-sidebar></app-sidebar>
             
         </div>
     </div>

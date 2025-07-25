@@ -1,4 +1,4 @@
-/* ESTILOS GENERALES Y ESTRUCTURA (Reutilizados de la página anterior) */
+/* --- GLOBAL STYLES & STRUCTURE (Consistent with previous pages) --- */
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -9,7 +9,6 @@ body {
     flex-direction: column;
     height: 100vh;
 }
-
 .main-layout {
     display: flex;
     flex-grow: 1;
@@ -17,154 +16,268 @@ body {
 }
 .content-area {
     flex-grow: 1;
-    background-color: #fdecf2; /* Fondo Rosa */
+    background-color: #fcf6fa; /* Light, subtle pink */
     padding: 30px;
     overflow-y: auto;
 }
-
-.btn-pink {
-  background-color: #f48fb1;
-  color: white;
-  border: none;
+.container-fluid {
+    max-width: 1400px; /* Consistent with other pages */
+    margin: 0 auto;
+}
+.top-nav {
+    background-color: #fdfdfd; /* Pure white for top bar */
+    border-bottom: 1px solid #f0f0f0; /* Softer border */
+    flex-shrink: 0;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.navbar-brand {
+    font-weight: 600;
+    color: #333;
+}
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+    transition: all 0.2s ease-in-out;
+}
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
 }
 
-.btn-pink:hover {
-  background-color: #ec407a;
-  color: white;
-}
 
-
-/* --- NUEVOS ESTILOS PARA ESTA PÁGINA --- */
-
-/* Contenedor de la barra de búsqueda */
-.search-box {
-    background-color: #fbdbe9; /* Rosa un poco más oscuro */
-    padding: 15px;
+/* --- SEARCH SECTION STYLES --- */
+.search-box-container {
+    position: relative;
+    margin-bottom: 30px; /* Space below search bar */
+    background-color: #fff; /* White background for the whole search box */
     border-radius: 12px;
-    margin-bottom: 25px;
-}
-/* Campo de texto para buscar */
-.search-box .form-control {
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    background-color: #f7f7f7;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-    font-size: 1rem;
-}
-.search-box .form-control::placeholder {
-    color: #aaa;
-}
-.search-box .form-control:focus {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(233, 30, 99, 0.15);
-}
-
-/* Contenedor para la lista de resultados */
-.user-list {
-    background-color: #fbdbe9; /* Mismo color que la caja de búsqueda */
-    border-radius: 12px;
-    padding: 15px 25px;
-}
-
-/* Estilo para cada usuario en la lista */
-.user-item {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Soft shadow */
+    padding: 15px 20px; /* Padding inside the box */
     display: flex;
     align-items: center;
-    justify-self: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid #f8b3cf; /* Línea separadora rosa claro */
 }
 
-/* Elimina la línea del último usuario para un look más limpio */
-.user-list .user-item:last-child {
-    border-bottom: none;
+.search-icon {
+    font-size: 1.5rem; /* Larger icon */
+    color: #e6a7c1; /* Pink color for the icon */
+    margin-right: 15px; /* Space between icon and input */
 }
 
-/* Estilo para el ícono de perfil */
-.user-item i {
-    font-size: 2rem; /* Tamaño del ícono */
-    color: #6c757d; /* Color gris */
-    margin-right: 20px;
+.search-input {
+    flex-grow: 1; /* Input takes available space */
+    border: none;
+    padding: 12px 10px; /* Adjusted padding */
+    font-size: 1.1rem; /* Larger font size */
+    background-color: transparent; /* Transparent background */
+    outline: none; /* Remove default outline */
+    color: #333; /* Darker text color */
+}
+.search-input::placeholder {
+    color: #aaa;
+}
+.search-input:focus {
+    /* No border or shadow change on focus here, as the container already has shadow */
 }
 
-/* Estilo para el nombre de usuario */
-.user-item span {
-    font-size: 1.1rem;
+/* --- USER LIST / CARDS STYLES --- */
+.user-cards-list {
+    background-color: #fff; /* White background for the list container */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Soft shadow */
+    padding: 15px; /* Padding inside the list container */
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out content and button */
+    padding: 18px 20px; /* Padding for each user card */
+    border-bottom: 1px solid #f0f0f0; /* Lighter separator line */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.user-cards-list .user-card:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.user-card:hover {
+    background-color: #fcf6fa; /* Light pink on hover */
+    transform: translateX(5px); /* Slight slide effect */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Subtle shadow on hover */
+}
+
+.user-details {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between avatar and username */
+}
+
+.user-avatar-small {
+    width: 45px; /* Size of small avatar */
+    height: 45px;
+    border-radius: 50%; /* Circular */
+    overflow: hidden;
+    flex-shrink: 0; /* Prevent shrinking */
+    border: 2px solid #e6a7c1; /* Pink border */
+    background-color: #ddd; /* Placeholder background */
+}
+.user-avatar-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.username-display {
+    font-size: 1.1rem; /* Larger font size for username */
+    font-weight: 600; /* Bolder */
+    color: #333; /* Darker color */
+}
+
+.self-tag {
+    font-size: 0.9rem;
     font-weight: 500;
-    color: #495057;
+    color: #888;
+    margin-left: 5px;
 }
 
-.top-nav {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-    flex-shrink: 0;
+/* --- ACTION BUTTONS --- */
+.add-friend-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap; /* Prevent text wrap */
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+.add-friend-btn i {
+    margin-right: 5px;
 }
 
-/* --- BARRA LATERAL DERECHA (DISEÑO MEJORADO) --- */
-.sidebar {
-    width: 280px;
-    flex-shrink: 0;
-    background-color: #f8f9fa;
-    border-left: 1px solid #dee2e6;
-    padding: 20px;
+/* 'Añadir amigo' state (Primary button style) */
+.add-friend-btn.btn-primary {
+    background-color: #e6a7c1; /* Pink */
+    border-color: #e6a7c1;
+    color: #fff;
+}
+.add-friend-btn.btn-primary:hover:not(:disabled) {
+    background-color: #d697b1; /* Darker pink */
+    border-color: #d697b1;
+    box-shadow: 0 4px 10px rgba(230, 167, 193, 0.3);
+}
+
+/* 'Solicitud enviada' state (Secondary disabled style) */
+.add-friend-btn.btn-secondary-disabled {
+    background-color: #f0f0f0; /* Light gray */
+    border-color: #e0e0e0;
+    color: #999; /* Muted text */
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* 'Ya son amigos' state (Success disabled style) */
+.add-friend-btn.btn-success-disabled {
+    background-color: #d4edda; /* Light green */
+    border-color: #c3e6cb;
+    color: #28a745; /* Green text */
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* --- NO RESULTS STATE --- */
+.no-results-state {
+    padding: 60px 20px;
+    background-color: #fcf6fa; /* Light pink background */
+    border: 1px dashed #e6a7c1; /* Dashed pink border */
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.no-results-icon {
+    font-size: 4.5rem;
+    color: #e6a7c1;
+    margin-bottom: 25px;
+    display: block;
+}
+
+.no-results-message {
+    font-size: 1.25rem;
+    color: #777;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+
+/* --- SIDEBAR STYLES (Consistent with previous pages) --- */
+app-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 280px;
+  flex-shrink: 0;
+  background-color: #fdfdfd;
+  border-left: 1px solid #f0f0f0;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.03);
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 0;
     margin: 0;
-    /* Flexbox para controlar el layout interno */
     display: flex;
     flex-direction: column;
-    height: 100%; /* Ocupa toda la altura para empujar Home abajo */
+    height: 100%;
 }
 
 .sidebar-menu li a {
-    display: flex; /* Cambiado a flex para alinear ícono y texto */
+    display: flex;
     align-items: center;
     padding: 15px 20px;
     text-decoration: none;
-    color: #495057; /* Texto un poco más oscuro */
-    font-size: 1.1rem;
+    color: #555;
+    font-size: 1.05rem;
     font-weight: 500;
-    border: 1px solid #dee2e6;
-    border-radius: 12px; /* <-- BORDES MÁS REDONDEADOS */
-    margin-bottom: 12px;
-    background-color: #fff;
-    transition: all 0.2s ease-in-out; /* Transición más suave */
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
 }
 
-/* Efecto al pasar el mouse (solo si no es el botón activo) */
 .sidebar-menu li:not(.active) a:hover {
-    background-color: #e9ecef;
-    border-color: #ced4da;
-    transform: translateY(-2px); /* Pequeño efecto de elevación */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    background-color: #f8f8f8;
+    color: #333;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* --- ESTILO PARA EL BOTÓN ACTIVO (MÁS OSCURO) --- */
 .sidebar-menu li.active a {
-    background-color: #e6a7c1; /* Un rosa oscuro más armónico */
-    border-color: #e6a7c1;
-    color: #fff; /* Texto blanco para mejor contraste */
+    background-color: #e6a7c1;
+    color: #fff;
     box-shadow: 0 4px 12px rgba(230, 167, 193, 0.4);
+    font-weight: 600;
 }
 .sidebar-menu li.active a i {
-    color: #fff; /* Ícono también en blanco */
+    color: #fff;
 }
 
-/* Empuja el botón Home hacia abajo */
 .sidebar-menu .home-button-li {
     margin-top: auto;
 }
 
-/* Estilo de los íconos */
 .sidebar-menu i {
-    margin-right: 15px; /* Más espacio entre ícono y texto */
+    margin-right: 15px;
     font-size: 1.3rem;
-    color: #6c757d;
+    color: #888;
+    transition: color 0.2s ease-in-out;
 }
 
-.user-item .btn-pink {
-    margin-left: auto; 
+.sidebar-menu li:not(.active) a:hover i {
+    color: #e6a7c1;
 }

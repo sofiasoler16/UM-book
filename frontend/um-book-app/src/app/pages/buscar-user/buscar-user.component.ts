@@ -5,11 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserFilterPipe } from '../../pipes/user-filter.pipe';
 import { FriendService, Amigo } from '../../services/friend.service';
 import { UserService } from '../../services/user.service';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-buscar-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, UserFilterPipe],
+  imports: [CommonModule, FormsModule, HttpClientModule, UserFilterPipe, SidebarComponent],
   templateUrl: './buscar-user.component.html',
   styleUrls: ['./buscar-user.component.css']
 })
